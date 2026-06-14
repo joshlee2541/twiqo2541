@@ -1,0 +1,139 @@
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
+import { UserAvatar } from "@/components/Avatar";
+import { SignedImage } from "@/components/SignedImage";
+import { Button } from "@/components/ui/button";
+import { Grid3x3, Settings, LogOut } from "lucide-react";
+import { toast } from "sonner";
+
+export const Route = createFileRoute("/_authenticated/profile/$username")({
+  head: ({ params }) => ({ meta: [{ title: `@${params.username} • VibeLink` }] }),
+  component: Profile,
+});
+
+function Profile() {
+  const { username } = useParams({ from: "/_authenticated/profile/$username" });
+  const { user, signOut } = useAuth();
+  const qc = useQueryClient();
+
+  const { data: profile, isLoading } = useQuery({
+    queryKey: ["profile", username],
+    queryFn: async () => {
+      const { data } = await supabase.from("profiles").select("*").eq("username", username).maybeSingle();
+      return data;
+    },
+  });
+
+  const { data: stats } = useQuery({
+    queryKey: ["profile-stats", profile?.id],
+    enabled: !!profile?.id,
+    queryFn: async () => {
+      const [posts, followers, following] = await Promise.all([
+        supabase.from("posts").select("id", { count: "exact", head: true }).eq("user_id", profile!.id),
+        supabase.from("follows").select("follower_id", { count: "exact", head: true }).eq("following_id", profile!.id),
+        supabase.from("follows").select("following_id", { count: "exact", head: true }).eq("follower_id", profile!.id),
+      ]);
+      return { posts: posts.count ?? 0, followers: followers.count ?? 0, following: following.count ?? 0 };
+    },
+  });
+
+  const { data: posts } = useQuery({
+    queryKey: ["profile-posts", profile?.id],
+    enabled: !!profile?.id,
+    queryFn: async () => {
+      const { data } = await supabase.from("posts").select("id, image_url").eq("user_id", profile!.id).order("created_at", { ascending: false });
+      return data ?? [];
+    },
+  });
+
+  const { data: isFollowing } = useQuery({
+    queryKey: ["is-following", user?.id, profile?.id],
+    enabled: !!user && !!profile && user.id !== profile.id,
+    queryFn: async () => {
+      const { data } = await supabase.from("follows").select("follower_id").eq("follower_id", user!.id).eq("following_id", profile!.id).maybeSingle();
+      return !!data;
+    },
+  });
+
+  if (isLoading) return <div className="p-8 text-center text-muted-foreground">Loading...</div>;
+  if (!profile) return <div className="p-8 text-center">User not found</div>;
+
+  const isMe = user?.id === profile.id;
+
+  const toggleFollow = async () => {
+    if (!user) return;
+    if (isFollowing) {
+      await supabase.from("follows").delete().eq("follower_id", user.id).eq("following_id", profile.id);
+    } else {
+      const { error } = await supabase.from("follows").insert({ follower_id: user.id, following_id: profile.id });
+      if (error) { toast.error(error.message); return; }
+    }
+    qc.invalidateQueries({ queryKey: ["is-following"] });
+    qc.invalidateQueries({ queryKey: ["profile-stats"] });
+  };
+
+  return (
+    <div>
+      <div className="px-4 py-6">
+        <div className="flex items-center gap-6">
+          <UserAvatar path={profile.avatar_url} username={profile.username} size={86} />
+          <div className="flex-1 grid grid-cols-3 gap-2 text-center">
+            <Stat label="posts" value={stats?.posts ?? 0} />
+            <Stat label="followers" value={stats?.followers ?? 0} />
+            <Stat label="following" value={stats?.following ?? 0} />
+          </div>
+        </div>
+        <div className="mt-4">
+          <div className="font-semibold text-sm">{profile.full_name}</div>
+          {profile.bio && <p className="text-sm whitespace-pre-wrap">{profile.bio}</p>}
+          {profile.website && (
+            <a href={profile.website} target="_blank" rel="noreferrer" className="text-sm text-primary block">{profile.website}</a>
+          )}
+        </div>
+        <div className="mt-4 flex gap-2">
+          {isMe ? (
+            <>
+              <Link to="/edit-profile" className="flex-1">
+                <Button variant="secondary" className="w-full h-9"><Settings className="h-4 w-4 mr-2" />Edit profile</Button>
+              </Link>
+              <Button variant="secondary" className="h-9 w-9 p-0" onClick={() => signOut()} aria-label="Sign out">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <Button onClick={toggleFollow} className={`flex-1 h-9 ${isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : ""}`}>
+              {isFollowing ? "Following" : "Follow"}
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div className="border-t border-border flex justify-center py-2">
+        <Grid3x3 className="h-5 w-5" />
+      </div>
+
+      {posts?.length ? (
+        <div className="grid grid-cols-3 gap-[2px]">
+          {posts.map((p) => (
+            <Link key={p.id} to="/post/$id" params={{ id: p.id }} className="aspect-square bg-muted">
+              <SignedImage path={p.image_url} alt="" className="w-full h-full object-cover" />
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center text-muted-foreground py-12 text-sm">No posts yet</div>
+      )}
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div>
+      <div className="font-semibold">{value.toLocaleString()}</div>
+      <div className="text-xs text-muted-foreground">{label}</div>
+    </div>
+  );
+}

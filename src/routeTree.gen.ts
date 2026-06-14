@@ -13,13 +13,19 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedReelsRouteImport } from './routes/_authenticated/reels'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedExploreRouteImport } from './routes/_authenticated/explore'
 import { Route as AuthenticatedEditProfileRouteImport } from './routes/_authenticated/edit-profile'
+import { Route as AuthenticatedCreateReelRouteImport } from './routes/_authenticated/create-reel'
 import { Route as AuthenticatedCreateRouteImport } from './routes/_authenticated/create'
+import { Route as AuthenticatedStoriesUserIdRouteImport } from './routes/_authenticated/stories.$userId'
 import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_authenticated/profile.$username'
 import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
+import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -40,12 +46,27 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedReelsRoute = AuthenticatedReelsRouteImport.update({
+  id: '/reels',
+  path: '/reels',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
     path: '/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -62,11 +83,22 @@ const AuthenticatedEditProfileRoute =
     path: '/edit-profile',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCreateReelRoute = AuthenticatedCreateReelRouteImport.update({
+  id: '/create-reel',
+  path: '/create-reel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCreateRoute = AuthenticatedCreateRouteImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedStoriesUserIdRoute =
+  AuthenticatedStoriesUserIdRouteImport.update({
+    id: '/stories/$userId',
+    path: '/stories/$userId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProfileUsernameRoute =
   AuthenticatedProfileUsernameRouteImport.update({
     id: '/profile/$username',
@@ -78,30 +110,47 @@ const AuthenticatedPostIdRoute = AuthenticatedPostIdRouteImport.update({
   path: '/post/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedMessagesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/create': typeof AuthenticatedCreateRoute
+  '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
   '/explore': typeof AuthenticatedExploreRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/reels': typeof AuthenticatedReelsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
+  '/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/create': typeof AuthenticatedCreateRoute
+  '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
   '/explore': typeof AuthenticatedExploreRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/reels': typeof AuthenticatedReelsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
+  '/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,12 +159,18 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/create': typeof AuthenticatedCreateRoute
+  '/_authenticated/create-reel': typeof AuthenticatedCreateReelRoute
   '/_authenticated/edit-profile': typeof AuthenticatedEditProfileRoute
   '/_authenticated/explore': typeof AuthenticatedExploreRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/reels': typeof AuthenticatedReelsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/_authenticated/post/$id': typeof AuthenticatedPostIdRoute
   '/_authenticated/profile/$username': typeof AuthenticatedProfileUsernameRoute
+  '/_authenticated/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,24 +179,36 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/create'
+    | '/create-reel'
     | '/edit-profile'
     | '/explore'
     | '/home'
+    | '/messages'
     | '/notifications'
+    | '/reels'
+    | '/settings'
+    | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
+    | '/stories/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/reset-password'
     | '/create'
+    | '/create-reel'
     | '/edit-profile'
     | '/explore'
     | '/home'
+    | '/messages'
     | '/notifications'
+    | '/reels'
+    | '/settings'
+    | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
+    | '/stories/$userId'
   id:
     | '__root__'
     | '/'
@@ -149,12 +216,18 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/create'
+    | '/_authenticated/create-reel'
     | '/_authenticated/edit-profile'
     | '/_authenticated/explore'
     | '/_authenticated/home'
+    | '/_authenticated/messages'
     | '/_authenticated/notifications'
+    | '/_authenticated/reels'
+    | '/_authenticated/settings'
+    | '/_authenticated/messages/$id'
     | '/_authenticated/post/$id'
     | '/_authenticated/profile/$username'
+    | '/_authenticated/stories/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -194,11 +267,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reels': {
+      id: '/_authenticated/reels'
+      path: '/reels'
+      fullPath: '/reels'
+      preLoaderRoute: typeof AuthenticatedReelsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notifications': {
       id: '/_authenticated/notifications'
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/messages': {
+      id: '/_authenticated/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AuthenticatedMessagesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/home': {
@@ -222,11 +316,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEditProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/create-reel': {
+      id: '/_authenticated/create-reel'
+      path: '/create-reel'
+      fullPath: '/create-reel'
+      preLoaderRoute: typeof AuthenticatedCreateReelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/create': {
       id: '/_authenticated/create'
       path: '/create'
       fullPath: '/create'
       preLoaderRoute: typeof AuthenticatedCreateRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stories/$userId': {
+      id: '/_authenticated/stories/$userId'
+      path: '/stories/$userId'
+      fullPath: '/stories/$userId'
+      preLoaderRoute: typeof AuthenticatedStoriesUserIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/profile/$username': {
@@ -243,27 +351,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPostIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/messages/$id': {
+      id: '/_authenticated/messages/$id'
+      path: '/$id'
+      fullPath: '/messages/$id'
+      preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
+      parentRoute: typeof AuthenticatedMessagesRoute
+    }
   }
 }
 
+interface AuthenticatedMessagesRouteChildren {
+  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRoute
+}
+
+const AuthenticatedMessagesRouteChildren: AuthenticatedMessagesRouteChildren = {
+  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRoute,
+}
+
+const AuthenticatedMessagesRouteWithChildren =
+  AuthenticatedMessagesRoute._addFileChildren(
+    AuthenticatedMessagesRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCreateRoute: typeof AuthenticatedCreateRoute
+  AuthenticatedCreateReelRoute: typeof AuthenticatedCreateReelRoute
   AuthenticatedEditProfileRoute: typeof AuthenticatedEditProfileRoute
   AuthenticatedExploreRoute: typeof AuthenticatedExploreRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedReelsRoute: typeof AuthenticatedReelsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedPostIdRoute: typeof AuthenticatedPostIdRoute
   AuthenticatedProfileUsernameRoute: typeof AuthenticatedProfileUsernameRoute
+  AuthenticatedStoriesUserIdRoute: typeof AuthenticatedStoriesUserIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCreateRoute: AuthenticatedCreateRoute,
+  AuthenticatedCreateReelRoute: AuthenticatedCreateReelRoute,
   AuthenticatedEditProfileRoute: AuthenticatedEditProfileRoute,
   AuthenticatedExploreRoute: AuthenticatedExploreRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedReelsRoute: AuthenticatedReelsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedPostIdRoute: AuthenticatedPostIdRoute,
   AuthenticatedProfileUsernameRoute: AuthenticatedProfileUsernameRoute,
+  AuthenticatedStoriesUserIdRoute: AuthenticatedStoriesUserIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

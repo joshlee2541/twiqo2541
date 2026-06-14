@@ -46,6 +46,30 @@ export type Database = {
           },
         ]
       }
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          last_message_at: string
+          user1_id: string
+          user2_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          user1_id: string
+          user2_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          user1_id?: string
+          user2_id?: string
+        }
+        Relationships: []
+      }
       follows: {
         Row: {
           created_at: string
@@ -89,6 +113,41 @@ export type Database = {
             columns: ["post_id"]
             isOneToOne: false
             referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -153,12 +212,121 @@ export type Database = {
         }
         Relationships: []
       }
+      reel_likes: {
+        Row: {
+          created_at: string
+          reel_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          reel_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          reel_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reel_likes_reel_id_fkey"
+            columns: ["reel_id"]
+            isOneToOne: false
+            referencedRelation: "reels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reels: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          thumbnail_url: string | null
+          user_id: string
+          video_url: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          thumbnail_url?: string | null
+          user_id: string
+          video_url: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          thumbnail_url?: string | null
+          user_id?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
+      stories: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          media_type: string
+          media_url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          media_type?: string
+          media_url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          media_type?: string
+          media_url?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      story_views: {
+        Row: {
+          story_id: string
+          viewed_at: string
+          viewer_id: string
+        }
+        Insert: {
+          story_id: string
+          viewed_at?: string
+          viewer_id: string
+        }
+        Update: {
+          story_id?: string
+          viewed_at?: string
+          viewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_views_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_or_create_conversation: {
+        Args: { other_user: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

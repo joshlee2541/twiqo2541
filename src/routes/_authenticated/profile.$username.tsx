@@ -1,11 +1,11 @@
-import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { UserAvatar } from "@/components/Avatar";
 import { SignedImage } from "@/components/SignedImage";
 import { Button } from "@/components/ui/button";
-import { Grid3x3, Settings, LogOut } from "lucide-react";
+import { Grid3x3, Settings, LogOut, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile/$username")({
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/_authenticated/profile/$username")({
 function Profile() {
   const { username } = useParams({ from: "/_authenticated/profile/$username" });
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const qc = useQueryClient();
 
   const { data: profile, isLoading } = useQuery({
@@ -103,9 +104,22 @@ function Profile() {
               </Button>
             </>
           ) : (
-            <Button onClick={toggleFollow} className={`flex-1 h-9 ${isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : ""}`}>
-              {isFollowing ? "Following" : "Follow"}
-            </Button>
+            <>
+              <Button onClick={toggleFollow} className={`flex-1 h-9 ${isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : ""}`}>
+                {isFollowing ? "Following" : "Follow"}
+              </Button>
+              <Button
+                variant="secondary"
+                className="h-9"
+                onClick={async () => {
+                  const { data, error } = await supabase.rpc("get_or_create_conversation", { other_user: profile.id });
+                  if (error || !data) { toast.error(error?.message ?? "Failed"); return; }
+                  navigate({ to: "/messages/$id", params: { id: data as string } });
+                }}
+              >
+                <MessageCircle className="h-4 w-4 mr-1" /> Message
+              </Button>
+            </>
           )}
         </div>
       </div>

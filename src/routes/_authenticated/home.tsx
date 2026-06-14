@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { PostCard, type PostWithMeta } from "@/components/PostCard";
+import { StoriesRow } from "@/components/StoriesRow";
 import { Camera } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/home")({
@@ -51,26 +52,25 @@ function HomeFeed() {
     },
   });
 
-  if (isLoading) {
-    return <div className="p-8 text-center text-muted-foreground">Loading feed...</div>;
-  }
-
-  if (!posts?.length) {
-    return (
-      <div className="px-6 py-16 text-center">
-        <div className="mx-auto h-20 w-20 rounded-full border-2 border-foreground flex items-center justify-center">
-          <Camera className="h-10 w-10" />
-        </div>
-        <h2 className="mt-6 text-2xl font-semibold">Share Photos</h2>
-        <p className="mt-2 text-muted-foreground">When you share photos, they'll appear here.</p>
-        <Link to="/create" className="inline-block mt-4 text-primary font-semibold">Share your first photo</Link>
-      </div>
-    );
-  }
-
   return (
-    <div className="divide-y divide-border">
-      {posts.map((p) => <PostCard key={p.id} post={p} />)}
+    <div>
+      <StoriesRow />
+      {isLoading ? (
+        <div className="p-8 text-center text-muted-foreground">Loading feed...</div>
+      ) : !posts?.length ? (
+        <div className="px-6 py-16 text-center">
+          <div className="mx-auto h-20 w-20 rounded-full border-2 border-foreground flex items-center justify-center">
+            <Camera className="h-10 w-10" />
+          </div>
+          <h2 className="mt-6 text-2xl font-semibold">Share Photos</h2>
+          <p className="mt-2 text-muted-foreground">When you share photos, they'll appear here.</p>
+          <Link to="/create" className="inline-block mt-4 text-primary font-semibold">Share your first photo</Link>
+        </div>
+      ) : (
+        <div className="divide-y divide-border">
+          {posts.map((p) => <PostCard key={p.id} post={p} />)}
+        </div>
+      )}
     </div>
   );
 }

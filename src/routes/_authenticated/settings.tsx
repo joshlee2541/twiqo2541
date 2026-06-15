@@ -95,10 +95,19 @@ function SettingsHub() {
           <div key={g.title} className="mt-4">
             <div className="px-4 pb-1 text-[11px] font-semibold uppercase text-muted-foreground tracking-wide">{g.title}</div>
             {items.map((i) => (
-              <Link key={i.to} to={i.to} className="flex items-center justify-between px-4 py-3 hover:bg-accent/40 border-b border-border/60">
-                <span className="text-sm">{i.label}</span>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </Link>
+              i.section ? (
+                <Link key={i.section} to="/settings/$section" params={{ section: i.section }}
+                  className="flex items-center justify-between px-4 py-3 hover:bg-accent/40 border-b border-border/60">
+                  <span className="text-sm">{i.label}</span>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                </Link>
+              ) : (
+                <Link key={i.to} to={i.to!}
+                  className="flex items-center justify-between px-4 py-3 hover:bg-accent/40 border-b border-border/60">
+                  <span className="text-sm">{i.label}</span>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                </Link>
+              )
             ))}
           </div>
         );

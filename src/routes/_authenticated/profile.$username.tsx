@@ -5,7 +5,9 @@ import { useAuth } from "@/lib/auth";
 import { UserAvatar } from "@/components/Avatar";
 import { SignedImage } from "@/components/SignedImage";
 import { Button } from "@/components/ui/button";
-import { Grid3x3, Settings, LogOut, MessageCircle } from "lucide-react";
+import { Grid3x3, Settings as SettingsIcon, LogOut, MessageCircle, MoreHorizontal } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Link as RLink } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile/$username")({
@@ -77,6 +79,22 @@ function Profile() {
 
   return (
     <div>
+      {isMe && (
+        <div className="flex items-center justify-between px-4 pt-3">
+          <div className="font-semibold text-base">@{profile.username}</div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="p-2" aria-label="Open menu"><MoreHorizontal className="h-6 w-6" /></button>
+            </SheetTrigger>
+            <SheetContent side="right" className="p-0 w-[320px]">
+              <SheetHeader className="px-4 py-3 border-b border-border">
+                <SheetTitle>Settings and activity</SheetTitle>
+              </SheetHeader>
+              <ProfileMenu onSignOut={() => signOut()} />
+            </SheetContent>
+          </Sheet>
+        </div>
+      )}
       <div className="px-4 py-6">
         <div className="flex items-center gap-6">
           <UserAvatar path={profile.avatar_url} username={profile.username} size={86} />
@@ -97,7 +115,7 @@ function Profile() {
           {isMe ? (
             <>
               <Link to="/edit-profile" className="flex-1">
-                <Button variant="secondary" className="w-full h-9"><Settings className="h-4 w-4 mr-2" />Edit profile</Button>
+                <Button variant="secondary" className="w-full h-9"><SettingsIcon className="h-4 w-4 mr-2" />Edit profile</Button>
               </Link>
               <Button variant="secondary" className="h-9 w-9 p-0" onClick={() => signOut()} aria-label="Sign out">
                 <LogOut className="h-4 w-4" />
@@ -148,6 +166,59 @@ function Stat({ label, value }: { label: string; value: number }) {
     <div>
       <div className="font-semibold">{value.toLocaleString()}</div>
       <div className="text-xs text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function ProfileMenu({ onSignOut }: { onSignOut: () => void }) {
+  const items: { section: string; label: string; group: string }[] = [
+    { group: "How you use VibeLink", section: "account-center", label: "Account Center" },
+    { group: "Who can see your content", section: "privacy", label: "Account privacy" },
+    { group: "Who can see your content", section: "close-friends", label: "Close friends" },
+    { group: "Who can see your content", section: "blocked", label: "Blocked" },
+    { group: "Who can see your content", section: "hide-story", label: "Hide story and live" },
+    { group: "How others can interact with you", section: "messages", label: "Messages and story replies" },
+    { group: "How others can interact with you", section: "tags", label: "Tags and mentions" },
+    { group: "How others can interact with you", section: "comments", label: "Comments" },
+    { group: "How others can interact with you", section: "sharing", label: "Sharing and reuse" },
+    { group: "How others can interact with you", section: "restricted", label: "Restricted" },
+    { group: "How others can interact with you", section: "hidden-words", label: "Hidden words" },
+    { group: "What you see", section: "muted", label: "Muted accounts" },
+    { group: "What you see", section: "suggested", label: "Suggested content" },
+    { group: "What you see", section: "like-counts", label: "Like and share counts" },
+    { group: "Your app and media", section: "notifications", label: "Notifications" },
+    { group: "Your app and media", section: "time-management", label: "Time management" },
+    { group: "Your app and media", section: "archiving", label: "Archiving and downloading" },
+    { group: "Your app and media", section: "accessibility", label: "Accessibility and translations" },
+    { group: "Your app and media", section: "language", label: "Language" },
+    { group: "Your app and media", section: "data-usage", label: "Data usage and media quality" },
+    { group: "Your app and media", section: "website-permissions", label: "Website permissions" },
+    { group: "More info and support", section: "help", label: "Help" },
+    { group: "More info and support", section: "about", label: "About" },
+    { group: "Login", section: "security", label: "Password and security" },
+  ];
+  const groups = Array.from(new Set(items.map((i) => i.group)));
+  return (
+    <div className="overflow-y-auto h-[calc(100vh-60px)] pb-6">
+      <div className="px-4 py-3 border-b border-border">
+        <RLink to="/settings" className="block text-sm font-semibold">Settings and privacy</RLink>
+      </div>
+      {groups.map((g) => (
+        <div key={g} className="mt-2">
+          <div className="px-4 pt-3 pb-1 text-[11px] font-semibold uppercase text-muted-foreground tracking-wide">{g}</div>
+          {items.filter((i) => i.group === g).map((i) => (
+            <RLink key={i.section} to="/settings/$section" params={{ section: i.section }}
+              className="block px-4 py-2.5 text-sm hover:bg-accent/40 border-b border-border/60">
+              {i.label}
+            </RLink>
+          ))}
+        </div>
+      ))}
+      <div className="px-4 mt-4">
+        <button onClick={onSignOut} className="w-full text-sm font-semibold text-destructive py-3">
+          Log out
+        </button>
+      </div>
     </div>
   );
 }

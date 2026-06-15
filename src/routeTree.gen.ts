@@ -26,6 +26,7 @@ import { Route as AuthenticatedStoriesUserIdRouteImport } from './routes/_authen
 import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_authenticated/profile.$username'
 import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
 import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
+import { Route as AuthenticatedCallIdRouteImport } from './routes/_authenticated/call.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -115,6 +116,11 @@ const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AuthenticatedMessagesRoute,
 } as any)
+const AuthenticatedCallIdRoute = AuthenticatedCallIdRouteImport.update({
+  id: '/call/$id',
+  path: '/call/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/reels': typeof AuthenticatedReelsRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/call/$id': typeof AuthenticatedCallIdRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -147,6 +154,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/reels': typeof AuthenticatedReelsRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/call/$id': typeof AuthenticatedCallIdRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/reels': typeof AuthenticatedReelsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/call/$id': typeof AuthenticatedCallIdRoute
   '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/_authenticated/post/$id': typeof AuthenticatedPostIdRoute
   '/_authenticated/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/reels'
     | '/settings'
+    | '/call/$id'
     | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/reels'
     | '/settings'
+    | '/call/$id'
     | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/reels'
     | '/_authenticated/settings'
+    | '/_authenticated/call/$id'
     | '/_authenticated/messages/$id'
     | '/_authenticated/post/$id'
     | '/_authenticated/profile/$username'
@@ -358,6 +370,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
       parentRoute: typeof AuthenticatedMessagesRoute
     }
+    '/_authenticated/call/$id': {
+      id: '/_authenticated/call/$id'
+      path: '/call/$id'
+      fullPath: '/call/$id'
+      preLoaderRoute: typeof AuthenticatedCallIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -384,6 +403,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedReelsRoute: typeof AuthenticatedReelsRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedCallIdRoute: typeof AuthenticatedCallIdRoute
   AuthenticatedPostIdRoute: typeof AuthenticatedPostIdRoute
   AuthenticatedProfileUsernameRoute: typeof AuthenticatedProfileUsernameRoute
   AuthenticatedStoriesUserIdRoute: typeof AuthenticatedStoriesUserIdRoute
@@ -399,6 +419,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedReelsRoute: AuthenticatedReelsRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedCallIdRoute: AuthenticatedCallIdRoute,
   AuthenticatedPostIdRoute: AuthenticatedPostIdRoute,
   AuthenticatedProfileUsernameRoute: AuthenticatedProfileUsernameRoute,
   AuthenticatedStoriesUserIdRoute: AuthenticatedStoriesUserIdRoute,

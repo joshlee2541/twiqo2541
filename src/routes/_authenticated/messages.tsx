@@ -40,7 +40,7 @@ function MessagesList() {
       .in("conversation_id", convs.map((c) => c.id))
       .order("created_at", { ascending: false });
     const lastMsg = new Map<string, string>();
-    (msgs ?? []).forEach((m) => { if (!lastMsg.has(m.conversation_id)) lastMsg.set(m.conversation_id, m.content); });
+    (msgs ?? []).forEach((m) => { if (!lastMsg.has(m.conversation_id)) lastMsg.set(m.conversation_id, m.content ?? "🎤 Voice message"); });
     setRows(convs.map((c) => {
       const other = c.user1_id === user.id ? c.user2_id : c.user1_id;
       const p = pmap.get(other);

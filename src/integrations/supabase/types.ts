@@ -119,7 +119,9 @@ export type Database = {
       }
       messages: {
         Row: {
-          content: string
+          attachment_type: string | null
+          attachment_url: string | null
+          content: string | null
           conversation_id: string
           created_at: string
           id: string
@@ -127,7 +129,9 @@ export type Database = {
           sender_id: string
         }
         Insert: {
-          content: string
+          attachment_type?: string | null
+          attachment_url?: string | null
+          content?: string | null
           conversation_id: string
           created_at?: string
           id?: string
@@ -135,7 +139,9 @@ export type Database = {
           sender_id: string
         }
         Update: {
-          content?: string
+          attachment_type?: string | null
+          attachment_url?: string | null
+          content?: string | null
           conversation_id?: string
           created_at?: string
           id?: string
@@ -151,6 +157,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notes: {
+        Row: {
+          content: string
+          created_at: string
+          expires_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       posts: {
         Row: {
@@ -317,6 +347,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_settings: {
+        Row: {
+          allow_message_requests: boolean
+          email_notifications: boolean
+          is_private: boolean
+          language: string
+          push_notifications: boolean
+          show_activity_status: boolean
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allow_message_requests?: boolean
+          email_notifications?: boolean
+          is_private?: boolean
+          language?: string
+          push_notifications?: boolean
+          show_activity_status?: boolean
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allow_message_requests?: boolean
+          email_notifications?: boolean
+          is_private?: boolean
+          language?: string
+          push_notifications?: boolean
+          show_activity_status?: boolean
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {

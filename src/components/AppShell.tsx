@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Search, PlusSquare, Film, User as UserIcon, Send, Settings } from "lucide-react";
+import { Home, Search, PlusSquare, Film, User as UserIcon, Send } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,9 +27,6 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/home" className="vibelink-logo text-3xl">VibeLink</Link>
           <div className="flex items-center gap-1">
-            <Link to="/settings" className="p-2" aria-label="Settings">
-              <Settings className="h-6 w-6" />
-            </Link>
             <Link to="/messages" className="p-2" aria-label="Messages">
               <Send className="h-6 w-6" />
             </Link>

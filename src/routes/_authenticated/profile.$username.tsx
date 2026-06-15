@@ -5,7 +5,9 @@ import { useAuth } from "@/lib/auth";
 import { UserAvatar } from "@/components/Avatar";
 import { SignedImage } from "@/components/SignedImage";
 import { Button } from "@/components/ui/button";
-import { Grid3x3, Settings, LogOut, MessageCircle } from "lucide-react";
+import { Grid3x3, Settings as SettingsIcon, LogOut, MessageCircle, MoreHorizontal } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Link as RLink } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile/$username")({

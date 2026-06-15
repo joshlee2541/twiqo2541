@@ -79,6 +79,22 @@ function Profile() {
 
   return (
     <div>
+      {isMe && (
+        <div className="flex items-center justify-between px-4 pt-3">
+          <div className="font-semibold text-base">@{profile.username}</div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="p-2" aria-label="Open menu"><MoreHorizontal className="h-6 w-6" /></button>
+            </SheetTrigger>
+            <SheetContent side="right" className="p-0 w-[320px]">
+              <SheetHeader className="px-4 py-3 border-b border-border">
+                <SheetTitle>Settings and activity</SheetTitle>
+              </SheetHeader>
+              <ProfileMenu onSignOut={() => signOut()} />
+            </SheetContent>
+          </Sheet>
+        </div>
+      )}
       <div className="px-4 py-6">
         <div className="flex items-center gap-6">
           <UserAvatar path={profile.avatar_url} username={profile.username} size={86} />
@@ -99,7 +115,7 @@ function Profile() {
           {isMe ? (
             <>
               <Link to="/edit-profile" className="flex-1">
-                <Button variant="secondary" className="w-full h-9"><Settings className="h-4 w-4 mr-2" />Edit profile</Button>
+                <Button variant="secondary" className="w-full h-9"><SettingsIcon className="h-4 w-4 mr-2" />Edit profile</Button>
               </Link>
               <Button variant="secondary" className="h-9 w-9 p-0" onClick={() => signOut()} aria-label="Sign out">
                 <LogOut className="h-4 w-4" />

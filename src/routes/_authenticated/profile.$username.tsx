@@ -171,41 +171,44 @@ function Stat({ label, value }: { label: string; value: number }) {
 }
 
 function ProfileMenu({ onSignOut }: { onSignOut: () => void }) {
-  const items: { to: string; label: string; group: string }[] = [
-    { group: "How you use VibeLink", to: "/settings", label: "Settings and privacy" },
-    { group: "How you use VibeLink", to: "/settings/account-center", label: "Account Center" },
-    { group: "Who can see your content", to: "/settings/privacy", label: "Account privacy" },
-    { group: "Who can see your content", to: "/settings/close-friends", label: "Close friends" },
-    { group: "Who can see your content", to: "/settings/blocked", label: "Blocked" },
-    { group: "Who can see your content", to: "/settings/hide-story", label: "Hide story and live" },
-    { group: "How others can interact with you", to: "/settings/messages", label: "Messages and story replies" },
-    { group: "How others can interact with you", to: "/settings/tags", label: "Tags and mentions" },
-    { group: "How others can interact with you", to: "/settings/comments", label: "Comments" },
-    { group: "How others can interact with you", to: "/settings/sharing", label: "Sharing and reuse" },
-    { group: "How others can interact with you", to: "/settings/restricted", label: "Restricted" },
-    { group: "How others can interact with you", to: "/settings/hidden-words", label: "Hidden words" },
-    { group: "What you see", to: "/settings/muted", label: "Muted accounts" },
-    { group: "What you see", to: "/settings/suggested", label: "Suggested content" },
-    { group: "What you see", to: "/settings/like-counts", label: "Like and share counts" },
-    { group: "Your app and media", to: "/settings/notifications", label: "Notifications" },
-    { group: "Your app and media", to: "/settings/time-management", label: "Time management" },
-    { group: "Your app and media", to: "/settings/archiving", label: "Archiving and downloading" },
-    { group: "Your app and media", to: "/settings/accessibility", label: "Accessibility and translations" },
-    { group: "Your app and media", to: "/settings/language", label: "Language" },
-    { group: "Your app and media", to: "/settings/data-usage", label: "Data usage and media quality" },
-    { group: "Your app and media", to: "/settings/website-permissions", label: "Website permissions" },
-    { group: "More info and support", to: "/settings/help", label: "Help" },
-    { group: "More info and support", to: "/settings/about", label: "About" },
-    { group: "Login", to: "/settings/security", label: "Password and security" },
+  const items: { section: string; label: string; group: string }[] = [
+    { group: "How you use VibeLink", section: "account-center", label: "Account Center" },
+    { group: "Who can see your content", section: "privacy", label: "Account privacy" },
+    { group: "Who can see your content", section: "close-friends", label: "Close friends" },
+    { group: "Who can see your content", section: "blocked", label: "Blocked" },
+    { group: "Who can see your content", section: "hide-story", label: "Hide story and live" },
+    { group: "How others can interact with you", section: "messages", label: "Messages and story replies" },
+    { group: "How others can interact with you", section: "tags", label: "Tags and mentions" },
+    { group: "How others can interact with you", section: "comments", label: "Comments" },
+    { group: "How others can interact with you", section: "sharing", label: "Sharing and reuse" },
+    { group: "How others can interact with you", section: "restricted", label: "Restricted" },
+    { group: "How others can interact with you", section: "hidden-words", label: "Hidden words" },
+    { group: "What you see", section: "muted", label: "Muted accounts" },
+    { group: "What you see", section: "suggested", label: "Suggested content" },
+    { group: "What you see", section: "like-counts", label: "Like and share counts" },
+    { group: "Your app and media", section: "notifications", label: "Notifications" },
+    { group: "Your app and media", section: "time-management", label: "Time management" },
+    { group: "Your app and media", section: "archiving", label: "Archiving and downloading" },
+    { group: "Your app and media", section: "accessibility", label: "Accessibility and translations" },
+    { group: "Your app and media", section: "language", label: "Language" },
+    { group: "Your app and media", section: "data-usage", label: "Data usage and media quality" },
+    { group: "Your app and media", section: "website-permissions", label: "Website permissions" },
+    { group: "More info and support", section: "help", label: "Help" },
+    { group: "More info and support", section: "about", label: "About" },
+    { group: "Login", section: "security", label: "Password and security" },
   ];
   const groups = Array.from(new Set(items.map((i) => i.group)));
   return (
     <div className="overflow-y-auto h-[calc(100vh-60px)] pb-6">
+      <div className="px-4 py-3 border-b border-border">
+        <RLink to="/settings" className="block text-sm font-semibold">Settings and privacy</RLink>
+      </div>
       {groups.map((g) => (
         <div key={g} className="mt-2">
           <div className="px-4 pt-3 pb-1 text-[11px] font-semibold uppercase text-muted-foreground tracking-wide">{g}</div>
           {items.filter((i) => i.group === g).map((i) => (
-            <RLink key={i.to} to={i.to} className="block px-4 py-2.5 text-sm hover:bg-accent/40 border-b border-border/60">
+            <RLink key={i.section} to="/settings/$section" params={{ section: i.section }}
+              className="block px-4 py-2.5 text-sm hover:bg-accent/40 border-b border-border/60">
               {i.label}
             </RLink>
           ))}

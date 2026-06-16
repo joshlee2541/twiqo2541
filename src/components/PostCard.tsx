@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Heart, MessageCircle, Send, Bookmark } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { SignedImage } from "./SignedImage";
 import { UserAvatar } from "./Avatar";
+import { VerifiedBadge } from "./VerifiedBadge";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { timeAgo } from "@/lib/timeAgo";
 
 export interface PostWithMeta {
   id: string;
@@ -15,7 +17,7 @@ export interface PostWithMeta {
   caption: string | null;
   location: string | null;
   created_at: string;
-  profile: { username: string; avatar_url: string | null; full_name: string | null } | null;
+  profile: { username: string; avatar_url: string | null; full_name: string | null; verified?: boolean | null; verified_until?: string | null } | null;
   likes_count: number;
   comments_count: number;
   liked_by_me: boolean;
@@ -52,8 +54,9 @@ export function PostCard({ post }: { post: PostWithMeta }) {
           <UserAvatar path={post.profile?.avatar_url} username={post.profile?.username ?? ""} size={36} ring />
         </Link>
         <div className="flex-1 min-w-0">
-          <Link to="/profile/$username" params={{ username: post.profile?.username ?? "" }} className="text-sm font-semibold truncate block">
-            {post.profile?.username}
+          <Link to="/profile/$username" params={{ username: post.profile?.username ?? "" }} className="text-sm font-semibold truncate flex items-center gap-1">
+            <span className="truncate">{post.profile?.username}</span>
+            <VerifiedBadge verified={post.profile?.verified} verifiedUntil={post.profile?.verified_until} />
           </Link>
           {post.location && <div className="text-xs text-muted-foreground truncate">{post.location}</div>}
         </div>
@@ -91,8 +94,8 @@ export function PostCard({ post }: { post: PostWithMeta }) {
             View all {post.comments_count} comments
           </Link>
         )}
-        <div className="text-[11px] uppercase text-muted-foreground mt-1">
-          {new Date(post.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+        <div className="text-[11px] text-muted-foreground mt-1">
+          {timeAgo(post.created_at)}
         </div>
       </div>
     </article>

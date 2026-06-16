@@ -117,6 +117,38 @@ export type Database = {
           },
         ]
       }
+      message_reactions: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          message_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji: string
+          id?: string
+          message_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          message_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_reactions_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           attachment_type: string | null
@@ -126,6 +158,7 @@ export type Database = {
           created_at: string
           id: string
           read_at: string | null
+          reply_to_id: string | null
           sender_id: string
         }
         Insert: {
@@ -136,6 +169,7 @@ export type Database = {
           created_at?: string
           id?: string
           read_at?: string | null
+          reply_to_id?: string | null
           sender_id: string
         }
         Update: {
@@ -146,6 +180,7 @@ export type Database = {
           created_at?: string
           id?: string
           read_at?: string | null
+          reply_to_id?: string | null
           sender_id?: string
         }
         Relationships: [
@@ -154,6 +189,13 @@ export type Database = {
             columns: ["conversation_id"]
             isOneToOne: false
             referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_reply_to_id_fkey"
+            columns: ["reply_to_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
             referencedColumns: ["id"]
           },
         ]
@@ -216,8 +258,11 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          last_seen_at: string | null
           updated_at: string
           username: string
+          verified: boolean
+          verified_until: string | null
           website: string | null
         }
         Insert: {
@@ -226,8 +271,11 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          last_seen_at?: string | null
           updated_at?: string
           username: string
+          verified?: boolean
+          verified_until?: string | null
           website?: string | null
         }
         Update: {
@@ -236,8 +284,11 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          last_seen_at?: string | null
           updated_at?: string
           username?: string
+          verified?: boolean
+          verified_until?: string | null
           website?: string | null
         }
         Relationships: []
@@ -389,10 +440,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_email_by_username: { Args: { _username: string }; Returns: string }
       get_or_create_conversation: {
         Args: { other_user: string }
         Returns: string
       }
+      touch_last_seen: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

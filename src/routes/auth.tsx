@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import logoAsset from "@/assets/vibelink-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Log in • VibeLink" }] }),
@@ -35,7 +36,8 @@ function AuthPage() {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-10">
       <div className="w-full max-w-sm">
         <div className="bg-card border border-border rounded-lg px-8 py-10 flex flex-col items-center">
-          <h1 className="vibelink-logo text-5xl mb-8 mt-2">VibeLink</h1>
+          <img src={logoAsset.url} alt="VibeLink" className="h-20 w-20 rounded-2xl mb-4 mt-2 shadow-md" />
+          <h1 className="vibelink-logo text-4xl mb-6">VibeLink</h1>
           {mode === "login" ? <LoginForm /> : <SignupForm onDone={() => setMode("login")} />}
         </div>
         <div className="bg-card border border-border rounded-lg mt-3 py-4 text-center text-sm">
@@ -68,14 +70,9 @@ function LoginForm() {
     setBusy(true);
     let email = identifier.trim();
     if (!email.includes("@")) {
-      const { data } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("username", email.toLowerCase())
-        .maybeSingle();
-      if (!data) { setBusy(false); toast.error("No account with that username"); return; }
-      // Sign in by username isn't supported directly — ask for email
-      setBusy(false); toast.error("Please log in with your email"); return;
+      const { data, error: rpcErr } = await supabase.rpc("get_email_by_username", { _username: email.toLowerCase() });
+      if (rpcErr || !data) { setBusy(false); toast.error("No account with that username"); return; }
+      email = data as string;
     }
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
@@ -96,7 +93,7 @@ function LoginForm() {
     <form onSubmit={onSubmit} className="w-full space-y-2">
       <Input
         type="text"
-        placeholder="Email"
+        placeholder="Username or email"
         value={identifier}
         onChange={(e) => setIdentifier(e.target.value)}
         className="h-11 bg-muted border-border"

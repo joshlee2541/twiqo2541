@@ -30,7 +30,7 @@ function HomeFeed() {
       const postIds = postRows.map((p) => p.id);
 
       const [{ data: profiles }, { data: likes }, { data: myLikes }, { data: comments }] = await Promise.all([
-        supabase.from("profiles").select("id, username, avatar_url, full_name").in("id", userIds),
+        supabase.from("profiles").select("id, username, avatar_url, full_name, verified, verified_until").in("id", userIds),
         supabase.from("likes").select("post_id").in("post_id", postIds),
         user ? supabase.from("likes").select("post_id").in("post_id", postIds).eq("user_id", user.id) : Promise.resolve({ data: [] as { post_id: string }[] }),
         supabase.from("comments").select("post_id").in("post_id", postIds),

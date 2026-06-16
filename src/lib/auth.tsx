@@ -32,6 +32,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Presence heartbeat — updates last_seen_at every 30s while tab is visible
+  useEffect(() => {
+    if (!session?.user) return;
+    const tick = () => {
+      if (document.visibilityState === "visible") {
+        supabase.rpc("touch_last_seen");
+      }
+    };
+    tick();
+    const iv = setInterval(tick, 30_000);
+    const onVis = () => tick();
+    document.addEventListener("visibilitychange", onVis);
+    return () => { clearInterval(iv); document.removeEventListener("visibilitychange", onVis); };
+  }, [session?.user?.id]);
+
   return (
     <AuthContext.Provider
       value={{

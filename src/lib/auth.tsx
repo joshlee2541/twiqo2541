@@ -37,8 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!session?.user) return;
     const tick = () => {
       if (document.visibilityState === "visible") {
-        // @ts-expect-error rpc name is exposed on supabase client
-        supabase.rpc("touch_last_seen");
+        (supabase.rpc as (n: string) => Promise<unknown>)("touch_last_seen");
       }
     };
     tick();

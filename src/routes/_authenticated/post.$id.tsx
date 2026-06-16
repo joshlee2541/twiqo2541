@@ -24,7 +24,7 @@ function PostDetail() {
       const { data: p } = await supabase.from("posts").select("*").eq("id", id).maybeSingle();
       if (!p) return null;
       const [{ data: profile }, { count: lc }, { count: cc }, myLike] = await Promise.all([
-        supabase.from("profiles").select("username, avatar_url, full_name").eq("id", p.user_id).maybeSingle(),
+        supabase.from("profiles").select("username, avatar_url, full_name, verified, verified_until").eq("id", p.user_id).maybeSingle(),
         supabase.from("likes").select("*", { count: "exact", head: true }).eq("post_id", id),
         supabase.from("comments").select("*", { count: "exact", head: true }).eq("post_id", id),
         user ? supabase.from("likes").select("post_id").eq("post_id", id).eq("user_id", user.id).maybeSingle() : Promise.resolve({ data: null }),

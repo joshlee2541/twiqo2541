@@ -81,7 +81,7 @@ function Profile() {
     <div>
       {isMe && (
         <div className="flex items-center justify-between px-4 pt-3">
-          <div className="font-semibold text-base">@{profile.username}</div>
+          <div className="font-semibold text-base flex items-center gap-1">@{profile.username}<VerifiedBadge verified={profile.verified} verifiedUntil={profile.verified_until} /></div>
           <Sheet>
             <SheetTrigger asChild>
               <button className="p-2" aria-label="Open menu"><MoreHorizontal className="h-6 w-6" /></button>
@@ -105,7 +105,10 @@ function Profile() {
           </div>
         </div>
         <div className="mt-4">
-          <div className="font-semibold text-sm">{profile.full_name}</div>
+          <div className="font-semibold text-sm flex items-center gap-1">
+            {profile.full_name}
+            {!isMe && <VerifiedBadge verified={profile.verified} verifiedUntil={profile.verified_until} />}
+          </div>
           {profile.bio && <p className="text-sm whitespace-pre-wrap">{profile.bio}</p>}
           {profile.website && (
             <a href={profile.website} target="_blank" rel="noreferrer" className="text-sm text-primary block">{profile.website}</a>

@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { UserAvatar } from "@/components/Avatar";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { SignedImage } from "@/components/SignedImage";
 import { Button } from "@/components/ui/button";
 import { Grid3x3, Settings as SettingsIcon, LogOut, MessageCircle, MoreHorizontal } from "lucide-react";

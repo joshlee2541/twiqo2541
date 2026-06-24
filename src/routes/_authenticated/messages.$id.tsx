@@ -7,7 +7,7 @@ import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { ActiveLabel, OnlineDot } from "@/components/Presence";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Send, Mic, Phone, Video, Trash2, X, Smile, CornerUpLeft, Copy } from "lucide-react";
+import { ChevronLeft, Send, Mic, Phone, Video, Trash2, X, CornerUpLeft, Copy, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uploadMedia, getSignedUrl } from "@/lib/storage";
 import { toast } from "sonner";

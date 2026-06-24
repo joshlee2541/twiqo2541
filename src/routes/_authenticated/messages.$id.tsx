@@ -207,7 +207,21 @@ function Chat() {
     <div className="flex flex-col h-[calc(100vh-3.5rem-4rem)]">
       <div className="flex items-center gap-3 px-3 py-2 border-b border-border">
         <Link to="/messages" className="p-1"><ChevronLeft className="h-6 w-6" /></Link>
-        {other && (
+        {group ? (
+          <>
+            <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary/30 to-accent flex items-center justify-center">
+              <Users className="h-5 w-5 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold truncate">{group.name}</div>
+              <Link to="/messages/$id/info" params={{ id }} className="block text-[11px] text-muted-foreground hover:underline">
+                {group.member_count} members · Tap for info
+              </Link>
+            </div>
+            <Link to="/call/$id" params={{ id }} search={{ mode: "audio" }} className="p-2" aria-label="Audio call"><Phone className="h-5 w-5" /></Link>
+            <Link to="/call/$id" params={{ id }} search={{ mode: "video" }} className="p-2" aria-label="Video call"><Video className="h-5 w-5" /></Link>
+          </>
+        ) : other && (
           <>
             <div className="relative">
               <UserAvatar path={other.avatar_url} username={other.username} size={36} />

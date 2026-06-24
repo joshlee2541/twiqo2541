@@ -40,6 +40,7 @@ function Chat() {
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [text, setText] = useState("");
   const [other, setOther] = useState<{ id: string; username: string; full_name: string | null; avatar_url: string | null; verified: boolean; verified_until: string | null; last_seen_at: string | null } | null>(null);
+  const [group, setGroup] = useState<{ name: string; avatar_url: string | null; member_count: number } | null>(null);
   const [replyTo, setReplyTo] = useState<Msg | null>(null);
   const [actionMsg, setActionMsg] = useState<Msg | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -50,17 +51,26 @@ function Chat() {
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Load conversation, other user, messages, reactions
+  // Load conversation, other user / group, messages, reactions
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const { data: conv } = await supabase.from("conversations").select("user1_id, user2_id").eq("id", id).maybeSingle();
+      const { data: conv } = await supabase.from("conversations")
+        .select("user1_id, user2_id, is_group, name, avatar_url").eq("id", id).maybeSingle();
       if (!conv) return;
-      const otherId = conv.user1_id === user.id ? conv.user2_id : conv.user1_id;
-      const { data: p } = await supabase.from("profiles")
-        .select("id, username, full_name, avatar_url, verified, verified_until, last_seen_at")
-        .eq("id", otherId).maybeSingle();
-      setOther(p);
+      if (conv.is_group) {
+        const { count } = await supabase.from("conversation_members")
+          .select("user_id", { count: "exact", head: true }).eq("conversation_id", id);
+        setGroup({ name: conv.name ?? "Group", avatar_url: conv.avatar_url, member_count: count ?? 0 });
+      } else {
+        const otherId = conv.user1_id === user.id ? conv.user2_id : conv.user1_id;
+        if (otherId) {
+          const { data: p } = await supabase.from("profiles")
+            .select("id, username, full_name, avatar_url, verified, verified_until, last_seen_at")
+            .eq("id", otherId).maybeSingle();
+          setOther(p);
+        }
+      }
       const { data: m } = await supabase.from("messages")
         .select("id, sender_id, content, created_at, read_at, attachment_url, attachment_type, reply_to_id")
         .eq("conversation_id", id).order("created_at");

@@ -342,7 +342,7 @@ function CreateGroupButton({ onCreated }: { onCreated: () => void }) {
     const { data, error } = await supabase.rpc("create_group_conversation", {
       _name: name.trim(),
       _member_ids: picked.map((p) => p.id),
-      _avatar_url: null,
+      _avatar_url: undefined,
     });
     setBusy(false);
     if (error) { toast.error(error.message); return; }

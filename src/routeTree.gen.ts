@@ -22,12 +22,14 @@ import { Route as AuthenticatedExploreRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedEditProfileRouteImport } from './routes/_authenticated/edit-profile'
 import { Route as AuthenticatedCreateReelRouteImport } from './routes/_authenticated/create-reel'
 import { Route as AuthenticatedCreateRouteImport } from './routes/_authenticated/create'
+import { Route as AuthenticatedCallsRouteImport } from './routes/_authenticated/calls'
 import { Route as AuthenticatedStoriesUserIdRouteImport } from './routes/_authenticated/stories.$userId'
 import { Route as AuthenticatedSettingsSectionRouteImport } from './routes/_authenticated/settings.$section'
 import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_authenticated/profile.$username'
 import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
 import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
 import { Route as AuthenticatedCallIdRouteImport } from './routes/_authenticated/call.$id'
+import { Route as AuthenticatedMessagesIdInfoRouteImport } from './routes/_authenticated/messages.$id.info'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -95,6 +97,11 @@ const AuthenticatedCreateRoute = AuthenticatedCreateRouteImport.update({
   path: '/create',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCallsRoute = AuthenticatedCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedStoriesUserIdRoute =
   AuthenticatedStoriesUserIdRouteImport.update({
     id: '/stories/$userId',
@@ -128,11 +135,18 @@ const AuthenticatedCallIdRoute = AuthenticatedCallIdRouteImport.update({
   path: '/call/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMessagesIdInfoRoute =
+  AuthenticatedMessagesIdInfoRouteImport.update({
+    id: '/info',
+    path: '/info',
+    getParentRoute: () => AuthenticatedMessagesIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/calls': typeof AuthenticatedCallsRoute
   '/create': typeof AuthenticatedCreateRoute
   '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
@@ -143,16 +157,18 @@ export interface FileRoutesByFullPath {
   '/reels': typeof AuthenticatedReelsRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
-  '/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
   '/settings/$section': typeof AuthenticatedSettingsSectionRoute
   '/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
+  '/messages/$id/info': typeof AuthenticatedMessagesIdInfoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/calls': typeof AuthenticatedCallsRoute
   '/create': typeof AuthenticatedCreateRoute
   '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
@@ -163,11 +179,12 @@ export interface FileRoutesByTo {
   '/reels': typeof AuthenticatedReelsRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
-  '/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
   '/settings/$section': typeof AuthenticatedSettingsSectionRoute
   '/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
+  '/messages/$id/info': typeof AuthenticatedMessagesIdInfoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -175,6 +192,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/calls': typeof AuthenticatedCallsRoute
   '/_authenticated/create': typeof AuthenticatedCreateRoute
   '/_authenticated/create-reel': typeof AuthenticatedCreateReelRoute
   '/_authenticated/edit-profile': typeof AuthenticatedEditProfileRoute
@@ -185,11 +203,12 @@ export interface FileRoutesById {
   '/_authenticated/reels': typeof AuthenticatedReelsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/_authenticated/call/$id': typeof AuthenticatedCallIdRoute
-  '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/_authenticated/post/$id': typeof AuthenticatedPostIdRoute
   '/_authenticated/profile/$username': typeof AuthenticatedProfileUsernameRoute
   '/_authenticated/settings/$section': typeof AuthenticatedSettingsSectionRoute
   '/_authenticated/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
+  '/_authenticated/messages/$id/info': typeof AuthenticatedMessagesIdInfoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -197,6 +216,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/calls'
     | '/create'
     | '/create-reel'
     | '/edit-profile'
@@ -212,11 +232,13 @@ export interface FileRouteTypes {
     | '/profile/$username'
     | '/settings/$section'
     | '/stories/$userId'
+    | '/messages/$id/info'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/calls'
     | '/create'
     | '/create-reel'
     | '/edit-profile'
@@ -232,12 +254,14 @@ export interface FileRouteTypes {
     | '/profile/$username'
     | '/settings/$section'
     | '/stories/$userId'
+    | '/messages/$id/info'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/calls'
     | '/_authenticated/create'
     | '/_authenticated/create-reel'
     | '/_authenticated/edit-profile'
@@ -253,6 +277,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile/$username'
     | '/_authenticated/settings/$section'
     | '/_authenticated/stories/$userId'
+    | '/_authenticated/messages/$id/info'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -355,6 +380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCreateRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/calls': {
+      id: '/_authenticated/calls'
+      path: '/calls'
+      fullPath: '/calls'
+      preLoaderRoute: typeof AuthenticatedCallsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/stories/$userId': {
       id: '/_authenticated/stories/$userId'
       path: '/stories/$userId'
@@ -397,15 +429,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCallIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/messages/$id/info': {
+      id: '/_authenticated/messages/$id/info'
+      path: '/info'
+      fullPath: '/messages/$id/info'
+      preLoaderRoute: typeof AuthenticatedMessagesIdInfoRouteImport
+      parentRoute: typeof AuthenticatedMessagesIdRoute
+    }
   }
 }
 
+interface AuthenticatedMessagesIdRouteChildren {
+  AuthenticatedMessagesIdInfoRoute: typeof AuthenticatedMessagesIdInfoRoute
+}
+
+const AuthenticatedMessagesIdRouteChildren: AuthenticatedMessagesIdRouteChildren =
+  {
+    AuthenticatedMessagesIdInfoRoute: AuthenticatedMessagesIdInfoRoute,
+  }
+
+const AuthenticatedMessagesIdRouteWithChildren =
+  AuthenticatedMessagesIdRoute._addFileChildren(
+    AuthenticatedMessagesIdRouteChildren,
+  )
+
 interface AuthenticatedMessagesRouteChildren {
-  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRoute
+  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRouteWithChildren
 }
 
 const AuthenticatedMessagesRouteChildren: AuthenticatedMessagesRouteChildren = {
-  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRoute,
+  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRouteWithChildren,
 }
 
 const AuthenticatedMessagesRouteWithChildren =
@@ -427,6 +480,7 @@ const AuthenticatedSettingsRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCallsRoute: typeof AuthenticatedCallsRoute
   AuthenticatedCreateRoute: typeof AuthenticatedCreateRoute
   AuthenticatedCreateReelRoute: typeof AuthenticatedCreateReelRoute
   AuthenticatedEditProfileRoute: typeof AuthenticatedEditProfileRoute
@@ -443,6 +497,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCallsRoute: AuthenticatedCallsRoute,
   AuthenticatedCreateRoute: AuthenticatedCreateRoute,
   AuthenticatedCreateReelRoute: AuthenticatedCreateReelRoute,
   AuthenticatedEditProfileRoute: AuthenticatedEditProfileRoute,
@@ -470,13 +525,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

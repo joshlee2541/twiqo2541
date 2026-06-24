@@ -7,7 +7,7 @@ import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { ActiveLabel, OnlineDot } from "@/components/Presence";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Send, Mic, Phone, Video, Trash2, X, Smile, CornerUpLeft, Copy } from "lucide-react";
+import { ChevronLeft, Send, Mic, Phone, Video, Trash2, X, CornerUpLeft, Copy, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uploadMedia, getSignedUrl } from "@/lib/storage";
 import { toast } from "sonner";
@@ -40,6 +40,7 @@ function Chat() {
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [text, setText] = useState("");
   const [other, setOther] = useState<{ id: string; username: string; full_name: string | null; avatar_url: string | null; verified: boolean; verified_until: string | null; last_seen_at: string | null } | null>(null);
+  const [group, setGroup] = useState<{ name: string; avatar_url: string | null; member_count: number } | null>(null);
   const [replyTo, setReplyTo] = useState<Msg | null>(null);
   const [actionMsg, setActionMsg] = useState<Msg | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -50,17 +51,26 @@ function Chat() {
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Load conversation, other user, messages, reactions
+  // Load conversation, other user / group, messages, reactions
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const { data: conv } = await supabase.from("conversations").select("user1_id, user2_id").eq("id", id).maybeSingle();
+      const { data: conv } = await supabase.from("conversations")
+        .select("user1_id, user2_id, is_group, name, avatar_url").eq("id", id).maybeSingle();
       if (!conv) return;
-      const otherId = conv.user1_id === user.id ? conv.user2_id : conv.user1_id;
-      const { data: p } = await supabase.from("profiles")
-        .select("id, username, full_name, avatar_url, verified, verified_until, last_seen_at")
-        .eq("id", otherId).maybeSingle();
-      setOther(p);
+      if (conv.is_group) {
+        const { count } = await supabase.from("conversation_members")
+          .select("user_id", { count: "exact", head: true }).eq("conversation_id", id);
+        setGroup({ name: conv.name ?? "Group", avatar_url: conv.avatar_url, member_count: count ?? 0 });
+      } else {
+        const otherId = conv.user1_id === user.id ? conv.user2_id : conv.user1_id;
+        if (otherId) {
+          const { data: p } = await supabase.from("profiles")
+            .select("id, username, full_name, avatar_url, verified, verified_until, last_seen_at")
+            .eq("id", otherId).maybeSingle();
+          setOther(p);
+        }
+      }
       const { data: m } = await supabase.from("messages")
         .select("id, sender_id, content, created_at, read_at, attachment_url, attachment_type, reply_to_id")
         .eq("conversation_id", id).order("created_at");
@@ -197,7 +207,21 @@ function Chat() {
     <div className="flex flex-col h-[calc(100vh-3.5rem-4rem)]">
       <div className="flex items-center gap-3 px-3 py-2 border-b border-border">
         <Link to="/messages" className="p-1"><ChevronLeft className="h-6 w-6" /></Link>
-        {other && (
+        {group ? (
+          <>
+            <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary/30 to-accent flex items-center justify-center">
+              <Users className="h-5 w-5 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold truncate">{group.name}</div>
+              <Link to="/messages/$id/info" params={{ id }} className="block text-[11px] text-muted-foreground hover:underline">
+                {group.member_count} members · Tap for info
+              </Link>
+            </div>
+            <Link to="/call/$id" params={{ id }} search={{ mode: "audio" }} className="p-2" aria-label="Audio call"><Phone className="h-5 w-5" /></Link>
+            <Link to="/call/$id" params={{ id }} search={{ mode: "video" }} className="p-2" aria-label="Video call"><Video className="h-5 w-5" /></Link>
+          </>
+        ) : other && (
           <>
             <div className="relative">
               <UserAvatar path={other.avatar_url} username={other.username} size={36} />

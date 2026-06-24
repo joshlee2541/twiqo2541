@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      calls: {
+        Row: {
+          call_type: string
+          caller_id: string
+          conversation_id: string
+          duration_seconds: number | null
+          ended_at: string | null
+          id: string
+          started_at: string
+          status: string
+        }
+        Insert: {
+          call_type: string
+          caller_id: string
+          conversation_id: string
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          call_type?: string
+          caller_id?: string
+          conversation_id?: string
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calls_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           content: string
@@ -46,27 +87,71 @@ export type Database = {
           },
         ]
       }
-      conversations: {
+      conversation_members: {
         Row: {
-          created_at: string
+          conversation_id: string
           id: string
-          last_message_at: string
-          user1_id: string
-          user2_id: string
+          joined_at: string
+          role: string
+          user_id: string
         }
         Insert: {
-          created_at?: string
+          conversation_id: string
           id?: string
-          last_message_at?: string
-          user1_id: string
-          user2_id: string
+          joined_at?: string
+          role?: string
+          user_id: string
         }
         Update: {
-          created_at?: string
+          conversation_id?: string
           id?: string
+          joined_at?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_members_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          is_group: boolean
+          last_message_at: string
+          name: string | null
+          user1_id: string | null
+          user2_id: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_group?: boolean
           last_message_at?: string
-          user1_id?: string
-          user2_id?: string
+          name?: string | null
+          user1_id?: string | null
+          user2_id?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_group?: boolean
+          last_message_at?: string
+          name?: string | null
+          user1_id?: string | null
+          user2_id?: string | null
         }
         Relationships: []
       }
@@ -440,12 +525,41 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_group_member: {
+        Args: { _conv: string; _user: string }
+        Returns: undefined
+      }
+      create_group_conversation: {
+        Args: { _avatar_url?: string; _member_ids: string[]; _name: string }
+        Returns: string
+      }
       get_email_by_username: { Args: { _username: string }; Returns: string }
       get_or_create_conversation: {
         Args: { other_user: string }
         Returns: string
       }
+      is_conv_admin: {
+        Args: { _conv: string; _user: string }
+        Returns: boolean
+      }
+      is_conv_member: {
+        Args: { _conv: string; _user: string }
+        Returns: boolean
+      }
+      leave_group: { Args: { _conv: string }; Returns: undefined }
+      remove_group_member: {
+        Args: { _conv: string; _user: string }
+        Returns: undefined
+      }
+      set_group_member_role: {
+        Args: { _conv: string; _role: string; _user: string }
+        Returns: undefined
+      }
       touch_last_seen: { Args: never; Returns: undefined }
+      update_group_meta: {
+        Args: { _avatar_url: string; _conv: string; _name: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

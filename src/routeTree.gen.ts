@@ -29,6 +29,7 @@ import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_auth
 import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
 import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
 import { Route as AuthenticatedCallIdRouteImport } from './routes/_authenticated/call.$id'
+import { Route as AuthenticatedMessagesIdInfoRouteImport } from './routes/_authenticated/messages.$id.info'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -134,6 +135,12 @@ const AuthenticatedCallIdRoute = AuthenticatedCallIdRouteImport.update({
   path: '/call/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMessagesIdInfoRoute =
+  AuthenticatedMessagesIdInfoRouteImport.update({
+    id: '/info',
+    path: '/info',
+    getParentRoute: () => AuthenticatedMessagesIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -150,11 +157,12 @@ export interface FileRoutesByFullPath {
   '/reels': typeof AuthenticatedReelsRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
-  '/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
   '/settings/$section': typeof AuthenticatedSettingsSectionRoute
   '/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
+  '/messages/$id/info': typeof AuthenticatedMessagesIdInfoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -171,11 +179,12 @@ export interface FileRoutesByTo {
   '/reels': typeof AuthenticatedReelsRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
-  '/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
   '/settings/$section': typeof AuthenticatedSettingsSectionRoute
   '/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
+  '/messages/$id/info': typeof AuthenticatedMessagesIdInfoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -194,11 +203,12 @@ export interface FileRoutesById {
   '/_authenticated/reels': typeof AuthenticatedReelsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/_authenticated/call/$id': typeof AuthenticatedCallIdRoute
-  '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/_authenticated/post/$id': typeof AuthenticatedPostIdRoute
   '/_authenticated/profile/$username': typeof AuthenticatedProfileUsernameRoute
   '/_authenticated/settings/$section': typeof AuthenticatedSettingsSectionRoute
   '/_authenticated/stories/$userId': typeof AuthenticatedStoriesUserIdRoute
+  '/_authenticated/messages/$id/info': typeof AuthenticatedMessagesIdInfoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/profile/$username'
     | '/settings/$section'
     | '/stories/$userId'
+    | '/messages/$id/info'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/profile/$username'
     | '/settings/$section'
     | '/stories/$userId'
+    | '/messages/$id/info'
   id:
     | '__root__'
     | '/'
@@ -265,6 +277,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile/$username'
     | '/_authenticated/settings/$section'
     | '/_authenticated/stories/$userId'
+    | '/_authenticated/messages/$id/info'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -416,15 +429,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCallIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/messages/$id/info': {
+      id: '/_authenticated/messages/$id/info'
+      path: '/info'
+      fullPath: '/messages/$id/info'
+      preLoaderRoute: typeof AuthenticatedMessagesIdInfoRouteImport
+      parentRoute: typeof AuthenticatedMessagesIdRoute
+    }
   }
 }
 
+interface AuthenticatedMessagesIdRouteChildren {
+  AuthenticatedMessagesIdInfoRoute: typeof AuthenticatedMessagesIdInfoRoute
+}
+
+const AuthenticatedMessagesIdRouteChildren: AuthenticatedMessagesIdRouteChildren =
+  {
+    AuthenticatedMessagesIdInfoRoute: AuthenticatedMessagesIdInfoRoute,
+  }
+
+const AuthenticatedMessagesIdRouteWithChildren =
+  AuthenticatedMessagesIdRoute._addFileChildren(
+    AuthenticatedMessagesIdRouteChildren,
+  )
+
 interface AuthenticatedMessagesRouteChildren {
-  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRoute
+  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRouteWithChildren
 }
 
 const AuthenticatedMessagesRouteChildren: AuthenticatedMessagesRouteChildren = {
-  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRoute,
+  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRouteWithChildren,
 }
 
 const AuthenticatedMessagesRouteWithChildren =

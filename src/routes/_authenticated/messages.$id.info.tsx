@@ -66,7 +66,7 @@ function GroupInfo() {
 
   const saveName = async () => {
     if (!nameInput.trim()) return;
-    const { error } = await supabase.rpc("update_group_meta", { _conv: id, _name: nameInput.trim(), _avatar_url: undefined });
+    const { error } = await supabase.rpc("update_group_meta", { _conv: id, _name: nameInput.trim(), _avatar_url: null as unknown as string });
     if (error) toast.error(error.message);
     else { setEditingName(false); load(); toast.success("Group updated"); }
   };

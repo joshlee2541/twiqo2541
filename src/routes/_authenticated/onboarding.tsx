@@ -71,7 +71,7 @@ function Onboarding() {
 
   const finish = async () => {
     if (!user) return;
-    const updates: Record<string, unknown> = { onboarded: true, interests };
+    const updates: { onboarded: boolean; interests: string[]; avatar_url?: string; bio?: string; website?: string } = { onboarded: true, interests };
     if (avatarPath) updates.avatar_url = avatarPath;
     if (bio.trim()) updates.bio = bio.trim();
     if (website.trim()) updates.website = website.trim();

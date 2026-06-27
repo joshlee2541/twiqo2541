@@ -340,10 +340,15 @@ export type Database = {
         Row: {
           avatar_url: string | null
           bio: string | null
+          close_friends_ids: string[]
           created_at: string
           full_name: string | null
           id: string
+          interests: string[]
+          is_private: boolean
           last_seen_at: string | null
+          onboarded: boolean
+          show_activity_status: boolean
           updated_at: string
           username: string
           verified: boolean
@@ -353,10 +358,15 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           bio?: string | null
+          close_friends_ids?: string[]
           created_at?: string
           full_name?: string | null
           id: string
+          interests?: string[]
+          is_private?: boolean
           last_seen_at?: string | null
+          onboarded?: boolean
+          show_activity_status?: boolean
           updated_at?: string
           username: string
           verified?: boolean
@@ -366,10 +376,15 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           bio?: string | null
+          close_friends_ids?: string[]
           created_at?: string
           full_name?: string | null
           id?: string
+          interests?: string[]
+          is_private?: boolean
           last_seen_at?: string | null
+          onboarded?: boolean
+          show_activity_status?: boolean
           updated_at?: string
           username?: string
           verified?: boolean
@@ -430,6 +445,63 @@ export type Database = {
           video_url?: string
         }
         Relationships: []
+      }
+      saved_collections: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      saved_posts: {
+        Row: {
+          collection_id: string | null
+          created_at: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          collection_id?: string | null
+          created_at?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          collection_id?: string | null
+          created_at?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_posts_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "saved_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_posts_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       stories: {
         Row: {

@@ -43,8 +43,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <main className="flex-1 max-w-2xl w-full mx-auto pb-24">
         {children}
-        <div className="text-center text-[11px] text-muted-foreground py-4">
-          from <span className="font-semibold text-foreground">Lee Tech</span>
+        <div className="text-center text-[11px] text-muted-foreground py-4 space-y-0.5">
+          <div>from <span className="font-semibold text-foreground">Lee Tech</span></div>
+          <div>© {new Date().getFullYear()} VibeLink. All rights reserved.</div>
         </div>
       </main>
 

@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { UserAvatar } from "@/components/Avatar";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { OnlineDot } from "@/components/Presence";
+import { NotesRow } from "@/components/NotesRow";
 import { timeAgo } from "@/lib/timeAgo";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -191,6 +192,7 @@ function MessagesList() {
           />
         </div>
       </div>
+      <NotesRow />
       {loading ? (
         <div className="p-8 text-center text-muted-foreground">Loading...</div>
       ) : !filtered.length ? (

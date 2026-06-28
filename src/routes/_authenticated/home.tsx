@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { PostCard, type PostWithMeta } from "@/components/PostCard";
 import { StoriesRow } from "@/components/StoriesRow";
-import { NotesRow } from "@/components/NotesRow";
+
 import { Camera } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/home")({
@@ -55,7 +55,6 @@ function HomeFeed() {
 
   return (
     <div>
-      <NotesRow />
       <StoriesRow />
       {isLoading ? (
         <div className="p-8 text-center text-muted-foreground">Loading feed...</div>

@@ -41,7 +41,12 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="flex-1 max-w-2xl w-full mx-auto pb-20">{children}</main>
+      <main className="flex-1 max-w-2xl w-full mx-auto pb-24">
+        {children}
+        <div className="text-center text-[11px] text-muted-foreground py-4">
+          from <span className="font-semibold text-foreground">Lee Tech</span>
+        </div>
+      </main>
 
       <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border">
         <div className="max-w-2xl mx-auto flex">

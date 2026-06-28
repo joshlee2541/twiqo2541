@@ -13,7 +13,7 @@ import { Search, SquarePen, ChevronLeft, Users, Phone } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_authenticated/messages")({
+export const Route = createFileRoute("/_authenticated/messages/")({
   head: () => ({ meta: [{ title: "Messages • VibeLink" }] }),
   component: MessagesList,
 });

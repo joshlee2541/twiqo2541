@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { PostCard, type PostWithMeta } from "@/components/PostCard";
 import { StoriesRow } from "@/components/StoriesRow";
+import { LiveRow } from "@/components/LiveRow";
 
 import { Camera } from "lucide-react";
 
@@ -55,6 +56,7 @@ function HomeFeed() {
 
   return (
     <div>
+      <LiveRow />
       <StoriesRow />
       {isLoading ? (
         <div className="p-8 text-center text-muted-foreground">Loading feed...</div>

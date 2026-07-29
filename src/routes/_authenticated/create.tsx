@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { ImagePlus } from "lucide-react";
 import { z } from "zod";
@@ -67,6 +67,10 @@ function CreatePost() {
   return (
     <div className="px-4 py-4">
       <h1 className="text-lg font-semibold text-center mb-4">New post</h1>
+      <div className="grid grid-cols-2 gap-2 mb-4">
+        <Link to="/create-reel" className="rounded-xl border border-border py-2 text-center text-sm font-medium">New reel</Link>
+        <Link to="/golive" className="rounded-xl bg-destructive text-destructive-foreground py-2 text-center text-sm font-semibold">Go live</Link>
+      </div>
       <input ref={inputRef} type="file" accept="image/*" onChange={onFile} className="hidden" />
       {!preview ? (
         <button

@@ -202,6 +202,197 @@ export type Database = {
           },
         ]
       }
+      live_comments: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          pinned: boolean
+          stream_id: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          stream_id: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          stream_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_comments_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "live_streams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      live_guest_requests: {
+        Row: {
+          created_at: string
+          id: string
+          status: string
+          stream_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          status?: string
+          stream_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          status?: string
+          stream_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_guest_requests_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "live_streams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      live_reactions: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          stream_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          stream_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          stream_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_reactions_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "live_streams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      live_streams: {
+        Row: {
+          audience: string
+          category: string | null
+          comments_enabled: boolean
+          created_at: string
+          ended_at: string | null
+          host_id: string
+          id: string
+          peak_viewers: number
+          replay_saved: boolean
+          replay_url: string | null
+          scheduled_at: string | null
+          started_at: string
+          status: string
+          thumbnail_url: string | null
+          title: string
+          total_viewers: number
+        }
+        Insert: {
+          audience?: string
+          category?: string | null
+          comments_enabled?: boolean
+          created_at?: string
+          ended_at?: string | null
+          host_id: string
+          id?: string
+          peak_viewers?: number
+          replay_saved?: boolean
+          replay_url?: string | null
+          scheduled_at?: string | null
+          started_at?: string
+          status?: string
+          thumbnail_url?: string | null
+          title: string
+          total_viewers?: number
+        }
+        Update: {
+          audience?: string
+          category?: string | null
+          comments_enabled?: boolean
+          created_at?: string
+          ended_at?: string | null
+          host_id?: string
+          id?: string
+          peak_viewers?: number
+          replay_saved?: boolean
+          replay_url?: string | null
+          scheduled_at?: string | null
+          started_at?: string
+          status?: string
+          thumbnail_url?: string | null
+          title?: string
+          total_viewers?: number
+        }
+        Relationships: []
+      }
+      live_viewers: {
+        Row: {
+          id: string
+          joined_at: string
+          last_seen_at: string
+          left_at: string | null
+          stream_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          last_seen_at?: string
+          left_at?: string | null
+          stream_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          last_seen_at?: string
+          left_at?: string | null
+          stream_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_viewers_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "live_streams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       message_reactions: {
         Row: {
           created_at: string

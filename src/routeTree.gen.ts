@@ -19,6 +19,7 @@ import { Route as AuthenticatedReelsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedGoliveRouteImport } from './routes/_authenticated/golive'
 import { Route as AuthenticatedExploreRouteImport } from './routes/_authenticated/explore'
 import { Route as AuthenticatedEditProfileRouteImport } from './routes/_authenticated/edit-profile'
 import { Route as AuthenticatedCreateReelRouteImport } from './routes/_authenticated/create-reel'
@@ -31,6 +32,7 @@ import { Route as AuthenticatedSettingsSectionRouteImport } from './routes/_auth
 import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_authenticated/profile.$username'
 import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
 import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
+import { Route as AuthenticatedLiveIdRouteImport } from './routes/_authenticated/live.$id'
 import { Route as AuthenticatedCallIdRouteImport } from './routes/_authenticated/call.$id'
 import { Route as AuthenticatedMessagesIdInfoRouteImport } from './routes/_authenticated/messages.$id.info'
 
@@ -82,6 +84,11 @@ const AuthenticatedNotificationsRoute =
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGoliveRoute = AuthenticatedGoliveRouteImport.update({
+  id: '/golive',
+  path: '/golive',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedExploreRoute = AuthenticatedExploreRouteImport.update({
@@ -150,6 +157,11 @@ const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
   path: '/messages/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLiveIdRoute = AuthenticatedLiveIdRouteImport.update({
+  id: '/live/$id',
+  path: '/live/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCallIdRoute = AuthenticatedCallIdRouteImport.update({
   id: '/call/$id',
   path: '/call/$id',
@@ -172,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
   '/explore': typeof AuthenticatedExploreRoute
+  '/golive': typeof AuthenticatedGoliveRoute
   '/home': typeof AuthenticatedHomeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -179,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
+  '/live/$id': typeof AuthenticatedLiveIdRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -197,6 +211,7 @@ export interface FileRoutesByTo {
   '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
   '/explore': typeof AuthenticatedExploreRoute
+  '/golive': typeof AuthenticatedGoliveRoute
   '/home': typeof AuthenticatedHomeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -204,6 +219,7 @@ export interface FileRoutesByTo {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
+  '/live/$id': typeof AuthenticatedLiveIdRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -224,6 +240,7 @@ export interface FileRoutesById {
   '/_authenticated/create-reel': typeof AuthenticatedCreateReelRoute
   '/_authenticated/edit-profile': typeof AuthenticatedEditProfileRoute
   '/_authenticated/explore': typeof AuthenticatedExploreRoute
+  '/_authenticated/golive': typeof AuthenticatedGoliveRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
@@ -231,6 +248,7 @@ export interface FileRoutesById {
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/_authenticated/call/$id': typeof AuthenticatedCallIdRoute
+  '/_authenticated/live/$id': typeof AuthenticatedLiveIdRoute
   '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/_authenticated/post/$id': typeof AuthenticatedPostIdRoute
   '/_authenticated/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -251,6 +269,7 @@ export interface FileRouteTypes {
     | '/create-reel'
     | '/edit-profile'
     | '/explore'
+    | '/golive'
     | '/home'
     | '/notifications'
     | '/onboarding'
@@ -258,6 +277,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/call/$id'
+    | '/live/$id'
     | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
@@ -276,6 +296,7 @@ export interface FileRouteTypes {
     | '/create-reel'
     | '/edit-profile'
     | '/explore'
+    | '/golive'
     | '/home'
     | '/notifications'
     | '/onboarding'
@@ -283,6 +304,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/call/$id'
+    | '/live/$id'
     | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
@@ -302,6 +324,7 @@ export interface FileRouteTypes {
     | '/_authenticated/create-reel'
     | '/_authenticated/edit-profile'
     | '/_authenticated/explore'
+    | '/_authenticated/golive'
     | '/_authenticated/home'
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
@@ -309,6 +332,7 @@ export interface FileRouteTypes {
     | '/_authenticated/saved'
     | '/_authenticated/settings'
     | '/_authenticated/call/$id'
+    | '/_authenticated/live/$id'
     | '/_authenticated/messages/$id'
     | '/_authenticated/post/$id'
     | '/_authenticated/profile/$username'
@@ -397,6 +421,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/golive': {
+      id: '/_authenticated/golive'
+      path: '/golive'
+      fullPath: '/golive'
+      preLoaderRoute: typeof AuthenticatedGoliveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/explore': {
       id: '/_authenticated/explore'
       path: '/explore'
@@ -481,6 +512,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/live/$id': {
+      id: '/_authenticated/live/$id'
+      path: '/live/$id'
+      fullPath: '/live/$id'
+      preLoaderRoute: typeof AuthenticatedLiveIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/call/$id': {
       id: '/_authenticated/call/$id'
       path: '/call/$id'
@@ -532,6 +570,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCreateReelRoute: typeof AuthenticatedCreateReelRoute
   AuthenticatedEditProfileRoute: typeof AuthenticatedEditProfileRoute
   AuthenticatedExploreRoute: typeof AuthenticatedExploreRoute
+  AuthenticatedGoliveRoute: typeof AuthenticatedGoliveRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
@@ -539,6 +578,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRouteWithChildren
   AuthenticatedCallIdRoute: typeof AuthenticatedCallIdRoute
+  AuthenticatedLiveIdRoute: typeof AuthenticatedLiveIdRoute
   AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRouteWithChildren
   AuthenticatedPostIdRoute: typeof AuthenticatedPostIdRoute
   AuthenticatedProfileUsernameRoute: typeof AuthenticatedProfileUsernameRoute
@@ -553,6 +593,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCreateReelRoute: AuthenticatedCreateReelRoute,
   AuthenticatedEditProfileRoute: AuthenticatedEditProfileRoute,
   AuthenticatedExploreRoute: AuthenticatedExploreRoute,
+  AuthenticatedGoliveRoute: AuthenticatedGoliveRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
@@ -560,6 +601,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRouteWithChildren,
   AuthenticatedCallIdRoute: AuthenticatedCallIdRoute,
+  AuthenticatedLiveIdRoute: AuthenticatedLiveIdRoute,
   AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRouteWithChildren,
   AuthenticatedPostIdRoute: AuthenticatedPostIdRoute,
   AuthenticatedProfileUsernameRoute: AuthenticatedProfileUsernameRoute,
@@ -579,13 +621,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -19,6 +19,7 @@ import { Route as AuthenticatedReelsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedGoliveRouteImport } from './routes/_authenticated/golive'
 import { Route as AuthenticatedExploreRouteImport } from './routes/_authenticated/explore'
 import { Route as AuthenticatedEditProfileRouteImport } from './routes/_authenticated/edit-profile'
 import { Route as AuthenticatedCreateReelRouteImport } from './routes/_authenticated/create-reel'
@@ -82,6 +83,11 @@ const AuthenticatedNotificationsRoute =
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGoliveRoute = AuthenticatedGoliveRouteImport.update({
+  id: '/golive',
+  path: '/golive',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedExploreRoute = AuthenticatedExploreRouteImport.update({
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
   '/explore': typeof AuthenticatedExploreRoute
+  '/golive': typeof AuthenticatedGoliveRoute
   '/home': typeof AuthenticatedHomeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/create-reel': typeof AuthenticatedCreateReelRoute
   '/edit-profile': typeof AuthenticatedEditProfileRoute
   '/explore': typeof AuthenticatedExploreRoute
+  '/golive': typeof AuthenticatedGoliveRoute
   '/home': typeof AuthenticatedHomeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/_authenticated/create-reel': typeof AuthenticatedCreateReelRoute
   '/_authenticated/edit-profile': typeof AuthenticatedEditProfileRoute
   '/_authenticated/explore': typeof AuthenticatedExploreRoute
+  '/_authenticated/golive': typeof AuthenticatedGoliveRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/create-reel'
     | '/edit-profile'
     | '/explore'
+    | '/golive'
     | '/home'
     | '/notifications'
     | '/onboarding'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/create-reel'
     | '/edit-profile'
     | '/explore'
+    | '/golive'
     | '/home'
     | '/notifications'
     | '/onboarding'
@@ -302,6 +313,7 @@ export interface FileRouteTypes {
     | '/_authenticated/create-reel'
     | '/_authenticated/edit-profile'
     | '/_authenticated/explore'
+    | '/_authenticated/golive'
     | '/_authenticated/home'
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
@@ -395,6 +407,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/golive': {
+      id: '/_authenticated/golive'
+      path: '/golive'
+      fullPath: '/golive'
+      preLoaderRoute: typeof AuthenticatedGoliveRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/explore': {
@@ -532,6 +551,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCreateReelRoute: typeof AuthenticatedCreateReelRoute
   AuthenticatedEditProfileRoute: typeof AuthenticatedEditProfileRoute
   AuthenticatedExploreRoute: typeof AuthenticatedExploreRoute
+  AuthenticatedGoliveRoute: typeof AuthenticatedGoliveRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
@@ -553,6 +573,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCreateReelRoute: AuthenticatedCreateReelRoute,
   AuthenticatedEditProfileRoute: AuthenticatedEditProfileRoute,
   AuthenticatedExploreRoute: AuthenticatedExploreRoute,
+  AuthenticatedGoliveRoute: AuthenticatedGoliveRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,

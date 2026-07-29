@@ -56,6 +56,7 @@ function HomeFeed() {
 
   return (
     <div>
+      <LiveRow />
       <StoriesRow />
       {isLoading ? (
         <div className="p-8 text-center text-muted-foreground">Loading feed...</div>

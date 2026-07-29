@@ -26,9 +26,8 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/home" className="flex items-center gap-2">
-            <img src={logoAsset.url} alt="VibeLink" className="h-8 w-8 rounded-lg" />
-            <span className="vibelink-logo text-2xl">VibeLink</span>
+          <Link to="/home" className="flex items-center">
+            <img src={logoAsset.url} alt="VibeLink" className="h-9 w-auto object-contain" />
           </Link>
           <div className="flex items-center gap-1">
             <Link to="/notifications" className="p-2" aria-label="Notifications">

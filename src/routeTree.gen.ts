@@ -32,6 +32,7 @@ import { Route as AuthenticatedSettingsSectionRouteImport } from './routes/_auth
 import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_authenticated/profile.$username'
 import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
 import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
+import { Route as AuthenticatedLiveIdRouteImport } from './routes/_authenticated/live.$id'
 import { Route as AuthenticatedCallIdRouteImport } from './routes/_authenticated/call.$id'
 import { Route as AuthenticatedMessagesIdInfoRouteImport } from './routes/_authenticated/messages.$id.info'
 
@@ -156,6 +157,11 @@ const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
   path: '/messages/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLiveIdRoute = AuthenticatedLiveIdRouteImport.update({
+  id: '/live/$id',
+  path: '/live/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCallIdRoute = AuthenticatedCallIdRouteImport.update({
   id: '/call/$id',
   path: '/call/$id',
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
+  '/live/$id': typeof AuthenticatedLiveIdRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/call/$id': typeof AuthenticatedCallIdRoute
+  '/live/$id': typeof AuthenticatedLiveIdRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/post/$id': typeof AuthenticatedPostIdRoute
   '/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteWithChildren
   '/_authenticated/call/$id': typeof AuthenticatedCallIdRoute
+  '/_authenticated/live/$id': typeof AuthenticatedLiveIdRoute
   '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRouteWithChildren
   '/_authenticated/post/$id': typeof AuthenticatedPostIdRoute
   '/_authenticated/profile/$username': typeof AuthenticatedProfileUsernameRoute
@@ -268,6 +277,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/call/$id'
+    | '/live/$id'
     | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
@@ -294,6 +304,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/call/$id'
+    | '/live/$id'
     | '/messages/$id'
     | '/post/$id'
     | '/profile/$username'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/_authenticated/saved'
     | '/_authenticated/settings'
     | '/_authenticated/call/$id'
+    | '/_authenticated/live/$id'
     | '/_authenticated/messages/$id'
     | '/_authenticated/post/$id'
     | '/_authenticated/profile/$username'
@@ -500,6 +512,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/live/$id': {
+      id: '/_authenticated/live/$id'
+      path: '/live/$id'
+      fullPath: '/live/$id'
+      preLoaderRoute: typeof AuthenticatedLiveIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/call/$id': {
       id: '/_authenticated/call/$id'
       path: '/call/$id'
@@ -559,6 +578,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRouteWithChildren
   AuthenticatedCallIdRoute: typeof AuthenticatedCallIdRoute
+  AuthenticatedLiveIdRoute: typeof AuthenticatedLiveIdRoute
   AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRouteWithChildren
   AuthenticatedPostIdRoute: typeof AuthenticatedPostIdRoute
   AuthenticatedProfileUsernameRoute: typeof AuthenticatedProfileUsernameRoute
@@ -581,6 +601,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRouteWithChildren,
   AuthenticatedCallIdRoute: AuthenticatedCallIdRoute,
+  AuthenticatedLiveIdRoute: AuthenticatedLiveIdRoute,
   AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRouteWithChildren,
   AuthenticatedPostIdRoute: AuthenticatedPostIdRoute,
   AuthenticatedProfileUsernameRoute: AuthenticatedProfileUsernameRoute,

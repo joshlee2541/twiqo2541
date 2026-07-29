@@ -20,9 +20,8 @@ export function SplashScreen() {
   return (
     <div className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-between py-16 animate-in fade-in">
       <div className="flex-1" />
-      <div className="flex flex-col items-center gap-3">
-        <img src={logoAsset.url} alt="VibeLink" className="h-20 w-20 rounded-2xl shadow-lg" />
-        <h1 className="vibelink-logo text-5xl">VibeLink</h1>
+      <div className="flex flex-col items-center">
+        <img src={logoAsset.url} alt="VibeLink" className="w-56 max-w-[70vw] object-contain" />
       </div>
       <div className="text-xs text-muted-foreground">
         from <span className="font-semibold text-foreground">Lee Tech</span>

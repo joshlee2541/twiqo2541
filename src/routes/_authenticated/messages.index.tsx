@@ -28,6 +28,7 @@ interface Row {
   verified: boolean;
   verified_until: string | null;
   last_seen_at: string | null;
+  other_id: string | null;
   last_message_at: string;
   preview: string | null;
   unread: number;
@@ -120,6 +121,7 @@ function MessagesList() {
           verified: false,
           verified_until: null,
           last_seen_at: null,
+          other_id: null,
           last_message_at: c.last_message_at,
           preview: lm?.content ?? null,
           unread: unreadMap.get(c.id) ?? 0,
@@ -140,6 +142,7 @@ function MessagesList() {
         verified: !!p?.verified,
         verified_until: p?.verified_until ?? null,
         last_seen_at: p?.last_seen_at ?? null,
+        other_id: other ?? null,
         last_message_at: c.last_message_at,
         preview: lm?.content ?? null,
         unread: unreadMap.get(c.id) ?? 0,
@@ -212,7 +215,7 @@ function MessagesList() {
                   ) : (
                     <>
                       <UserAvatar path={r.avatar_url} username={r.username} size={52} />
-                      <OnlineDot lastSeen={r.last_seen_at} />
+                      <OnlineDot userId={r.other_id} lastSeen={r.last_seen_at} />
                     </>
                   )}
                 </div>

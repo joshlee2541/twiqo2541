@@ -225,14 +225,14 @@ function Chat() {
           <>
             <div className="relative">
               <UserAvatar path={other.avatar_url} username={other.username} size={36} />
-              <OnlineDot lastSeen={other.last_seen_at} size={10} />
+              <OnlineDot userId={other.id} lastSeen={other.last_seen_at} size={10} />
             </div>
             <div className="flex-1 min-w-0">
               <div className="font-semibold flex items-center gap-1 truncate">
                 {other.username}
                 <VerifiedBadge verified={other.verified} verifiedUntil={other.verified_until} />
               </div>
-              <ActiveLabel lastSeen={other.last_seen_at} className="block text-[11px]" />
+              <ActiveLabel userId={other.id} lastSeen={other.last_seen_at} className="block text-[11px]" />
             </div>
             <Link to="/call/$id" params={{ id }} search={{ mode: "audio" }} className="p-2" aria-label="Audio call"><Phone className="h-5 w-5" /></Link>
             <Link to="/call/$id" params={{ id }} search={{ mode: "video" }} className="p-2" aria-label="Video call"><Video className="h-5 w-5" /></Link>

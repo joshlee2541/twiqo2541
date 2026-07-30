@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { initTheme } from "@/lib/theme";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";

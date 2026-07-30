@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Moon } from "lucide-react";
+import { ChevronLeft, Moon, Sun, SunMoon } from "lucide-react";
+import { getThemeMode, resolveTheme, setThemeMode, type ThemeMode } from "@/lib/theme";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/settings/$section")({
@@ -141,6 +142,9 @@ function SectionBody({ section }: { section: string }) {
           <Row label="Story reactions" right={<Switch defaultChecked />} />
         </>
       );
+
+    case "appearance":
+      return <AppearanceSection />;
 
     case "accessibility":
       return (

@@ -801,6 +801,13 @@ export type Database = {
         Args: { other_user: string }
         Returns: string
       }
+      get_presence: {
+        Args: { _ids: string[] }
+        Returns: {
+          last_seen_at: string
+          user_id: string
+        }[]
+      }
       is_conv_admin: {
         Args: { _conv: string; _user: string }
         Returns: boolean

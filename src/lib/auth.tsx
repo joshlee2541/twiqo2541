@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { initPresence, teardownPresence } from "@/lib/presence";
 
 interface AuthContextValue {
   session: Session | null;
@@ -41,10 +42,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
     tick();
+    initPresence(session.user.id);
     const iv = setInterval(tick, 30_000);
     const onVis = () => tick();
     document.addEventListener("visibilitychange", onVis);
-    return () => { clearInterval(iv); document.removeEventListener("visibilitychange", onVis); };
+    return () => {
+      clearInterval(iv);
+      document.removeEventListener("visibilitychange", onVis);
+      teardownPresence();
+    };
   }, [session?.user?.id]);
 
   return (

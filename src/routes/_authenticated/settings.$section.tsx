@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Moon, Sun, SunMoon } from "lucide-react";
 import { getThemeMode, resolveTheme, setThemeMode, type ThemeMode } from "@/lib/theme";
 import { toast } from "sonner";
+import { setPresenceSharing } from "@/lib/presence";
 
 export const Route = createFileRoute("/_authenticated/settings/$section")({
   head: ({ params }) => ({ meta: [{ title: `${prettify(params.section)} • VibeLink` }] }),
@@ -85,6 +86,7 @@ function Placeholder({ text }: { text: string }) {
 
 function SectionBody({ section }: { section: string }) {
   const { s, update, loaded } = useSettings();
+  const { user } = useAuth();
 
   if (!loaded && ["privacy", "notifications", "messages"].includes(section)) {
     return <div className="p-6 text-sm text-muted-foreground">Loading…</div>;
@@ -114,7 +116,11 @@ function SectionBody({ section }: { section: string }) {
             right={<Switch checked={s.is_private} onCheckedChange={(v) => update({ is_private: v })} />} />
           <Row label="Show activity status"
             hint="Allow accounts you follow and people you message to see when you were last active."
-            right={<Switch checked={s.show_activity_status} onCheckedChange={(v) => update({ show_activity_status: v })} />} />
+            right={<Switch checked={s.show_activity_status} onCheckedChange={async (v) => {
+              update({ show_activity_status: v });
+              if (user) await supabase.from("profiles").update({ show_activity_status: v }).eq("id", user.id);
+              await setPresenceSharing(v);
+            }} />} />
         </>
       );
 

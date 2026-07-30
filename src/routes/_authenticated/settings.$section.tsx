@@ -86,6 +86,7 @@ function Placeholder({ text }: { text: string }) {
 
 function SectionBody({ section }: { section: string }) {
   const { s, update, loaded } = useSettings();
+  const { user } = useAuth();
 
   if (!loaded && ["privacy", "notifications", "messages"].includes(section)) {
     return <div className="p-6 text-sm text-muted-foreground">Loading…</div>;

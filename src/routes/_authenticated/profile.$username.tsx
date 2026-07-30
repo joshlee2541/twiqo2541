@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { UserAvatar } from "@/components/Avatar";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
+import { ActiveLabel, OnlineDot } from "@/components/Presence";
 import { SignedImage } from "@/components/SignedImage";
 import { Button } from "@/components/ui/button";
 import { Grid3x3, Settings as SettingsIcon, LogOut, MessageCircle, MoreHorizontal } from "lucide-react";
@@ -98,7 +99,10 @@ function Profile() {
       )}
       <div className="px-4 py-6">
         <div className="flex items-center gap-6">
-          <UserAvatar path={profile.avatar_url} username={profile.username} size={86} />
+          <div className="relative">
+            <UserAvatar path={profile.avatar_url} username={profile.username} size={86} />
+            {!isMe && <OnlineDot userId={profile.id} size={16} />}
+          </div>
           <div className="flex-1 grid grid-cols-3 gap-2 text-center">
             <Stat label="posts" value={stats?.posts ?? 0} />
             <Stat label="followers" value={stats?.followers ?? 0} />
@@ -110,6 +114,7 @@ function Profile() {
             {profile.full_name}
             {!isMe && <VerifiedBadge verified={profile.verified} verifiedUntil={profile.verified_until} />}
           </div>
+          {!isMe && <ActiveLabel userId={profile.id} className="block mt-0.5" />}
           {profile.bio && <p className="text-sm whitespace-pre-wrap">{profile.bio}</p>}
           {profile.website && (
             <a href={profile.website} target="_blank" rel="noreferrer" className="text-sm text-primary block">{profile.website}</a>

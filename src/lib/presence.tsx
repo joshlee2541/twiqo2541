@@ -90,7 +90,7 @@ const EMPTY: PresenceInfo = { online: false, lastSeen: null, visible: false };
  */
 export function usePresence(ids: (string | null | undefined)[]): Record<string, PresenceInfo> {
   const key = useMemo(() => Array.from(new Set(ids.filter(Boolean) as string[])).sort().join(","), [ids]);
-  const [, force] = useState(0);
+  const [tick, force] = useState(0);
   const [allowed, setAllowed] = useState<Set<string>>(new Set());
 
   // Server-side privacy-filtered last_seen fetch (also refreshes periodically)
@@ -132,7 +132,7 @@ export function usePresence(ids: (string | null | undefined)[]): Record<string, 
     });
     return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, allowed, force]);
+  }, [key, allowed, tick]);
 }
 
 /** Convenience for a single user. */

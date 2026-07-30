@@ -101,9 +101,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useEffect(() => {
-    if (typeof window !== "undefined" && localStorage.getItem("theme") === "dark") {
-      document.documentElement.classList.add("dark");
-    }
+    return initTheme();
   }, []);
   return (
     <QueryClientProvider client={queryClient}>

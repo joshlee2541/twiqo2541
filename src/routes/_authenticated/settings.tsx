@@ -44,6 +44,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
   ]},
   { title: "Your app and media", items: [
     { section: "archiving", label: "Archiving and downloading" },
+    { section: "appearance", label: "Appearance" },
     { section: "accessibility", label: "Accessibility and translations" },
     { section: "language", label: "Language" },
     { section: "data-usage", label: "Data usage and media quality" },

@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { initTheme } from "@/lib/theme";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
@@ -101,9 +102,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useEffect(() => {
-    if (typeof window !== "undefined" && localStorage.getItem("theme") === "dark") {
-      document.documentElement.classList.add("dark");
-    }
+    return initTheme();
   }, []);
   return (
     <QueryClientProvider client={queryClient}>

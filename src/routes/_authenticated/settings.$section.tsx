@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Moon } from "lucide-react";
+import { ChevronLeft, Moon, Sun, SunMoon } from "lucide-react";
+import { getThemeMode, resolveTheme, setThemeMode, type ThemeMode } from "@/lib/theme";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/settings/$section")({
@@ -141,6 +142,9 @@ function SectionBody({ section }: { section: string }) {
           <Row label="Story reactions" right={<Switch defaultChecked />} />
         </>
       );
+
+    case "appearance":
+      return <AppearanceSection />;
 
     case "accessibility":
       return (
@@ -293,13 +297,39 @@ function SectionBody({ section }: { section: string }) {
 }
 
 function DarkModeSwitch() {
-  const [dark, setDark] = useState<boolean>(() =>
-    typeof document !== "undefined" && document.documentElement.classList.contains("dark"),
-  );
+  const [dark, setDark] = useState<boolean>(() => resolveTheme(getThemeMode()) === "dark");
   const toggle = (v: boolean) => {
     setDark(v);
-    document.documentElement.classList.toggle("dark", v);
-    localStorage.setItem("theme", v ? "dark" : "light");
+    setThemeMode(v ? "dark" : "light");
   };
   return <span className="flex items-center gap-2"><Moon className="h-4 w-4 text-muted-foreground" /><Switch checked={dark} onCheckedChange={toggle} /></span>;
+}
+
+const APPEARANCE_OPTIONS: { key: ThemeMode; label: string; hint: string; icon: typeof Sun }[] = [
+  { key: "light", label: "Light", hint: "White background, dark text", icon: Sun },
+  { key: "dark", label: "Dark", hint: "Dark background, white text", icon: Moon },
+  { key: "system", label: "System default", hint: "Follows your device setting automatically", icon: SunMoon },
+];
+
+function AppearanceSection() {
+  const [mode, setMode] = useState<ThemeMode>(() => getThemeMode());
+  const pick = (m: ThemeMode) => { setMode(m); setThemeMode(m); };
+  return (
+    <div className="py-2">
+      {APPEARANCE_OPTIONS.map((o) => (
+        <button key={o.key} onClick={() => pick(o.key)}
+          className="w-full flex items-center gap-3 px-4 py-3 border-b border-border/60 text-left">
+          <o.icon className="h-5 w-5 text-muted-foreground" />
+          <span className="flex-1 min-w-0">
+            <span className="block text-sm">{o.label}</span>
+            <span className="block text-xs text-muted-foreground">{o.hint}</span>
+          </span>
+          <span className={`h-4 w-4 rounded-full border-2 ${mode === o.key ? "border-primary bg-primary" : "border-border"}`} />
+        </button>
+      ))}
+      <p className="px-4 pt-3 text-xs text-muted-foreground">
+        VibeLink's accent color stays the same in every theme.
+      </p>
+    </div>
+  );
 }

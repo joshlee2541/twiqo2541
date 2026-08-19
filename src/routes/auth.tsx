@@ -29,6 +29,7 @@ const signupSchema = z.object({
 function AuthPage() {
   const { user, loading } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">("login");
+  const [method, setMethod] = useState<"email" | "phone">("email");
   if (loading) return null;
   if (user) return <Navigate to="/home" />;
 
@@ -38,7 +39,27 @@ function AuthPage() {
         <div className="bg-card border border-border rounded-lg px-8 py-10 flex flex-col items-center">
           <img src={logoAsset.url} alt="VibeLink" className="h-20 w-20 rounded-2xl mb-4 mt-2 shadow-md" />
           <h1 className="vibelink-logo text-4xl mb-6">VibeLink</h1>
-          {mode === "login" ? <LoginForm /> : <SignupForm onDone={() => setMode("login")} />}
+
+          <div className="w-full grid grid-cols-2 gap-1 p-1 mb-4 rounded-lg bg-muted">
+            {(["email", "phone"] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => setMethod(m)}
+                className={`h-8 rounded-md text-sm font-semibold capitalize transition-colors ${
+                  method === m ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                {m === "email" ? "Email" : "Phone"}
+              </button>
+            ))}
+          </div>
+
+          {method === "email" ? (
+            mode === "login" ? <LoginForm /> : <SignupForm onDone={() => setMode("login")} />
+          ) : (
+            <PhoneAuthForm mode={mode} onDone={() => setMode("login")} />
+          )}
         </div>
         <div className="bg-card border border-border rounded-lg mt-3 py-4 text-center text-sm">
           {mode === "login" ? (
@@ -53,6 +74,155 @@ function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function PhoneAuthForm({ mode, onDone }: { mode: "login" | "signup"; onDone: () => void }) {
+  const navigate = useNavigate();
+  const sendCode = useServerFn(requestPhoneCode);
+  const verifyCode = useServerFn(verifyPhoneCode);
+
+  const [step, setStep] = useState<"details" | "code">("details");
+  const [phone, setPhone] = useState("+");
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const [code, setCode] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  useEffect(() => {
+    setStep("details");
+    setCode("");
+  }, [mode]);
+
+  const send = async () => {
+    const parsed = phoneSchema.safeParse(phone);
+    if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
+    if (mode === "signup") {
+      const ok = signupDetailsSchema.safeParse({ fullName, username, password });
+      if (!ok.success) { toast.error(ok.error.issues[0].message); return; }
+    }
+    setBusy(true);
+    try {
+      await sendCode({ data: { phone: phone.trim(), mode } });
+      setStep("code");
+      setCooldown(45);
+      toast.success("We sent you a 6-digit code");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not send the code");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const verify = async () => {
+    setBusy(true);
+    try {
+      const { tokenHash } = await verifyCode({
+        data: {
+          phone: phone.trim(),
+          code: code.trim(),
+          mode,
+          ...(mode === "signup"
+            ? { fullName: fullName.trim(), username: username.trim().toLowerCase(), password }
+            : {}),
+        },
+      });
+      const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "email" });
+      if (error) throw new Error(error.message);
+      toast.success(mode === "signup" ? "Welcome to VibeLink!" : "Logged in");
+      onDone();
+      navigate({ to: "/home" });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not verify the code");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (step === "code") {
+    return (
+      <div className="w-full space-y-3">
+        <p className="text-sm text-muted-foreground text-center">
+          Enter the 6-digit code we sent to <span className="font-semibold text-foreground">{phone}</span>
+        </p>
+        <Input
+          inputMode="numeric"
+          maxLength={6}
+          placeholder="------"
+          value={code}
+          onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+          className="h-12 bg-muted border-border text-center text-2xl tracking-[0.5em] font-semibold"
+          autoComplete="one-time-code"
+        />
+        <Button onClick={verify} disabled={busy || code.length !== 6} className="w-full h-10 rounded-lg font-semibold">
+          {busy ? "Verifying..." : "Confirm"}
+        </Button>
+        <div className="flex items-center justify-between text-xs">
+          <button type="button" onClick={() => setStep("details")} className="text-muted-foreground">
+            Change number
+          </button>
+          <button
+            type="button"
+            disabled={cooldown > 0 || busy}
+            onClick={send}
+            className="text-primary font-semibold disabled:text-muted-foreground"
+          >
+            {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); send(); }} className="w-full space-y-2">
+      <p className="text-sm text-muted-foreground text-center mb-3">
+        {mode === "signup"
+          ? "Sign up with your phone number — we'll text you a confirmation code."
+          : "We'll text you a code to log in."}
+      </p>
+      <Input
+        type="tel"
+        placeholder="+1 555 000 0000"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value.replace(/[^\d+]/g, ""))}
+        className="h-11 bg-muted border-border"
+        autoComplete="tel"
+      />
+      {mode === "signup" && (
+        <>
+          <Input placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} className="h-11 bg-muted border-border" autoComplete="name" />
+          <Input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="h-11 bg-muted border-border" autoComplete="username" />
+          <div className="relative">
+            <Input
+              type={show ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-11 bg-muted border-border pr-10"
+              autoComplete="new-password"
+            />
+            {password && (
+              <button type="button" onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2">
+                {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            )}
+          </div>
+        </>
+      )}
+      <Button type="submit" disabled={busy} className="w-full h-10 rounded-lg font-semibold">
+        {busy ? "Sending..." : "Send code"}
+      </Button>
+    </form>
   );
 }
 

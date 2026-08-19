@@ -2,19 +2,17 @@ import { useEffect, useState } from "react";
 import logoAsset from "@/assets/vibelink-logo.png.asset.json";
 
 export function SplashScreen() {
-  const [show, setShow] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return !sessionStorage.getItem("vibelink-splash-shown");
-  });
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (!show) return;
+    if (sessionStorage.getItem("vibelink-splash-shown")) return;
+    setShow(true);
     const t = setTimeout(() => {
       sessionStorage.setItem("vibelink-splash-shown", "1");
       setShow(false);
     }, 1400);
     return () => clearTimeout(t);
-  }, [show]);
+  }, []);
 
   if (!show) return null;
   return (

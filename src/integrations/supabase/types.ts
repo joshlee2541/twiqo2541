@@ -500,6 +500,39 @@ export type Database = {
         }
         Relationships: []
       }
+      phone_verifications: {
+        Row: {
+          attempts: number
+          code_hash: string
+          consumed_at: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          phone: string
+          purpose: string
+        }
+        Insert: {
+          attempts?: number
+          code_hash: string
+          consumed_at?: string | null
+          created_at?: string
+          expires_at: string
+          id?: string
+          phone: string
+          purpose?: string
+        }
+        Update: {
+          attempts?: number
+          code_hash?: string
+          consumed_at?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          phone?: string
+          purpose?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           caption: string | null
@@ -539,6 +572,7 @@ export type Database = {
           is_private: boolean
           last_seen_at: string | null
           onboarded: boolean
+          phone: string | null
           show_activity_status: boolean
           updated_at: string
           username: string
@@ -557,6 +591,7 @@ export type Database = {
           is_private?: boolean
           last_seen_at?: string | null
           onboarded?: boolean
+          phone?: string | null
           show_activity_status?: boolean
           updated_at?: string
           username: string
@@ -575,6 +610,7 @@ export type Database = {
           is_private?: boolean
           last_seen_at?: string | null
           onboarded?: boolean
+          phone?: string | null
           show_activity_status?: boolean
           updated_at?: string
           username?: string

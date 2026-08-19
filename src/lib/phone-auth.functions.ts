@@ -41,7 +41,19 @@ async function sendSms(phone: string, text: string) {
   if (!res.ok) {
     const body = await res.text();
     console.error(`[Brevo SMS] ${res.status}: ${body}`);
-    throw new Error(`Could not send the code: ${body}`);
+    if (body.includes("No sms related addons")) {
+      throw new Error(
+        "SMS isn't available yet — the messaging account has no SMS credits. Sign up with email for now."
+      );
+    }
+    let message = body;
+    try {
+      const parsed = JSON.parse(body) as { message?: string };
+      if (parsed.message) message = parsed.message;
+    } catch {
+      /* keep raw body */
+    }
+    throw new Error(`Could not send the code: ${message}`);
   }
 }
 

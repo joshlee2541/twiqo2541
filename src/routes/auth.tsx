@@ -1,9 +1,11 @@
 import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { requestPhoneCode, verifyPhoneCode } from "@/lib/phone-auth.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -16,6 +18,17 @@ export const Route = createFileRoute("/auth")({
 
 const loginSchema = z.object({
   identifier: z.string().trim().min(1, "Required").max(255),
+  password: z.string().min(6, "At least 6 characters").max(72),
+});
+
+const phoneSchema = z
+  .string()
+  .trim()
+  .regex(/^\+[1-9]\d{6,14}$/, "Enter a valid phone number with country code, e.g. +15550001234");
+
+const signupDetailsSchema = z.object({
+  fullName: z.string().trim().min(1, "Full name is required").max(80),
+  username: z.string().trim().min(3, "Min 3 chars").max(30).regex(/^[a-z0-9_.]+$/, "lowercase, numbers, _ or . only"),
   password: z.string().min(6, "At least 6 characters").max(72),
 });
 

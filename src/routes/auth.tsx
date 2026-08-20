@@ -5,7 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { requestPhoneCode, verifyPhoneCode } from "@/lib/phone-auth.functions";
+import { signInWithPhone, signUpWithPhone } from "@/lib/phone-auth.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";

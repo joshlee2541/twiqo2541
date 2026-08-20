@@ -3,10 +3,10 @@ export type ThemeMode = "light" | "dark" | "system";
 const KEY = "theme";
 
 export function getThemeMode(): ThemeMode {
-  if (typeof window === "undefined") return "system";
+  if (typeof window === "undefined") return "dark";
   const v = localStorage.getItem(KEY);
   if (v === "dark" || v === "light" || v === "system") return v;
-  return "system";
+  return "dark";
 }
 
 function prefersDark() {

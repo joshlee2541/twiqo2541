@@ -92,116 +92,60 @@ function AuthPage() {
 
 function PhoneAuthForm({ mode, onDone }: { mode: "login" | "signup"; onDone: () => void }) {
   const navigate = useNavigate();
-  const sendCode = useServerFn(requestPhoneCode);
-  const verifyCode = useServerFn(verifyPhoneCode);
+  const phoneSignUp = useServerFn(signUpWithPhone);
+  const phoneSignIn = useServerFn(signInWithPhone);
 
-  const [step, setStep] = useState<"details" | "code">("details");
   const [phone, setPhone] = useState("+");
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
-  const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
-  const [cooldown, setCooldown] = useState(0);
 
-  useEffect(() => {
-    if (cooldown <= 0) return;
-    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
-    return () => clearTimeout(t);
-  }, [cooldown]);
-
-  useEffect(() => {
-    setStep("details");
-    setCode("");
-  }, [mode]);
-
-  const send = async () => {
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const parsed = phoneSchema.safeParse(phone);
     if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
     if (mode === "signup") {
       const ok = signupDetailsSchema.safeParse({ fullName, username, password });
       if (!ok.success) { toast.error(ok.error.issues[0].message); return; }
+    } else if (password.length < 6) {
+      toast.error("At least 6 characters");
+      return;
     }
-    setBusy(true);
-    try {
-      await sendCode({ data: { phone: phone.trim(), mode } });
-      setStep("code");
-      setCooldown(45);
-      toast.success("We sent you a 6-digit code");
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not send the code");
-    } finally {
-      setBusy(false);
-    }
-  };
 
-  const verify = async () => {
     setBusy(true);
     try {
-      const { tokenHash } = await verifyCode({
-        data: {
-          phone: phone.trim(),
-          code: code.trim(),
-          mode,
-          ...(mode === "signup"
-            ? { fullName: fullName.trim(), username: username.trim().toLowerCase(), password }
-            : {}),
-        },
-      });
-      const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "email" });
+      const { email } =
+        mode === "signup"
+          ? await phoneSignUp({
+              data: {
+                phone: phone.trim(),
+                fullName: fullName.trim(),
+                username: username.trim().toLowerCase(),
+                password,
+              },
+            })
+          : await phoneSignIn({ data: { phone: phone.trim(), password } });
+
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw new Error(error.message);
       toast.success(mode === "signup" ? "Welcome to VibeLink!" : "Logged in");
       onDone();
       navigate({ to: "/home" });
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not verify the code");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setBusy(false);
     }
   };
 
-  if (step === "code") {
-    return (
-      <div className="w-full space-y-3">
-        <p className="text-sm text-muted-foreground text-center">
-          Enter the 6-digit code we sent to <span className="font-semibold text-foreground">{phone}</span>
-        </p>
-        <Input
-          inputMode="numeric"
-          maxLength={6}
-          placeholder="------"
-          value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-          className="h-12 bg-muted border-border text-center text-2xl tracking-[0.5em] font-semibold"
-          autoComplete="one-time-code"
-        />
-        <Button onClick={verify} disabled={busy || code.length !== 6} className="w-full h-10 rounded-lg font-semibold">
-          {busy ? "Verifying..." : "Confirm"}
-        </Button>
-        <div className="flex items-center justify-between text-xs">
-          <button type="button" onClick={() => setStep("details")} className="text-muted-foreground">
-            Change number
-          </button>
-          <button
-            type="button"
-            disabled={cooldown > 0 || busy}
-            onClick={send}
-            className="text-primary font-semibold disabled:text-muted-foreground"
-          >
-            {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <form onSubmit={(e) => { e.preventDefault(); send(); }} className="w-full space-y-2">
+    <form onSubmit={submit} className="w-full space-y-2">
       <p className="text-sm text-muted-foreground text-center mb-3">
         {mode === "signup"
-          ? "Sign up with your phone number — we'll text you a confirmation code."
-          : "We'll text you a code to log in."}
+          ? "Sign up with your phone number and a password."
+          : "Log in with your phone number and password."}
       </p>
       <Input
         type="tel"
@@ -215,25 +159,25 @@ function PhoneAuthForm({ mode, onDone }: { mode: "login" | "signup"; onDone: () 
         <>
           <Input placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} className="h-11 bg-muted border-border" autoComplete="name" />
           <Input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="h-11 bg-muted border-border" autoComplete="username" />
-          <div className="relative">
-            <Input
-              type={show ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-11 bg-muted border-border pr-10"
-              autoComplete="new-password"
-            />
-            {password && (
-              <button type="button" onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2">
-                {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            )}
-          </div>
         </>
       )}
+      <div className="relative">
+        <Input
+          type={show ? "text" : "password"}
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="h-11 bg-muted border-border pr-10"
+          autoComplete={mode === "signup" ? "new-password" : "current-password"}
+        />
+        {password && (
+          <button type="button" onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2">
+            {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
+        )}
+      </div>
       <Button type="submit" disabled={busy} className="w-full h-10 rounded-lg font-semibold">
-        {busy ? "Sending..." : "Send code"}
+        {busy ? (mode === "signup" ? "Creating..." : "Logging in...") : mode === "signup" ? "Sign up" : "Log in"}
       </Button>
     </form>
   );

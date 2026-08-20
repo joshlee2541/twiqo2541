@@ -64,7 +64,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
       { title: "VibeLink — Share your vibe" },
       { name: "description", content: "VibeLink is a place to share photos, follow friends, and discover creators." },
-      { name: "theme-color", content: "#ffffff" },
+      { name: "theme-color", content: "#000000" },
       { property: "og:title", content: "VibeLink — Share your vibe" },
       { property: "og:description", content: "VibeLink is a place to share photos, follow friends, and discover creators." },
       { property: "og:type", content: "website" },
@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head><HeadContent /></head>
       <body>
         {children}

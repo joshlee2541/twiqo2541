@@ -71,12 +71,23 @@ export function PostCard({ post }: { post: PostWithMeta }) {
     } catch { toast.error("Couldn't copy link"); }
   };
 
+  const recordShare = async () => {
+    setShares((n) => n + 1);
+    if (user) await supabase.from("post_shares").insert({ post_id: post.id, user_id: user.id });
+  };
+
   const share = async () => {
     const url = `${window.location.origin}/post/${post.id}`;
     if (navigator.share) {
-      try { await navigator.share({ title: "VibeLink post", url }); return; } catch { /* cancelled */ }
+      try {
+        await navigator.share({ title: "VibeLink post", url });
+        await recordShare();
+        return;
+      } catch { /* cancelled */ }
+      return;
     }
-    copyLink();
+    await copyLink();
+    await recordShare();
   };
 
   const doDelete = async () => {

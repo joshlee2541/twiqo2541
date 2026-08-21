@@ -29,8 +29,11 @@ export interface PostWithMeta {
   profile: { username: string; avatar_url: string | null; full_name: string | null; verified?: boolean | null; verified_until?: string | null } | null;
   likes_count: number;
   comments_count: number;
+  shares_count?: number;
   liked_by_me: boolean;
 }
+
+const compact = (n: number) => Intl.NumberFormat("en", { notation: "compact" }).format(n);
 
 export function PostCard({ post }: { post: PostWithMeta }) {
   const { user } = useAuth();

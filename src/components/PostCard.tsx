@@ -148,14 +148,19 @@ export function PostCard({ post }: { post: PostWithMeta }) {
       </div>
 
       <div className="px-4 py-2">
-        <div className="flex items-center gap-4">
-          <button onClick={toggleLike} aria-label="Like" className="active:scale-90 transition-transform">
+        <div className="flex items-center gap-5">
+          <button onClick={toggleLike} aria-label="Like" className="flex items-center gap-1.5 active:scale-90 transition-transform">
             <Heart className={cn("h-7 w-7", liked && "fill-[var(--like)] text-[var(--like)]")} />
+            {likes > 0 && <span className="text-sm font-semibold">{compact(likes)}</span>}
           </button>
-          <Link to="/post/$id" params={{ id: post.id }} aria-label="Comment">
+          <Link to="/post/$id" params={{ id: post.id }} aria-label="Comment" className="flex items-center gap-1.5">
             <MessageCircle className="h-7 w-7" />
+            {post.comments_count > 0 && <span className="text-sm font-semibold">{compact(post.comments_count)}</span>}
           </Link>
-          <button aria-label="Share" onClick={share}><Send className="h-7 w-7" /></button>
+          <button aria-label="Share" onClick={share} className="flex items-center gap-1.5 active:scale-90 transition-transform">
+            <Send className="h-7 w-7" />
+            {shares > 0 && <span className="text-sm font-semibold">{compact(shares)}</span>}
+          </button>
           <button aria-label="Save" className="ml-auto"><Bookmark className="h-7 w-7" /></button>
         </div>
         <div className="text-sm font-semibold mt-2">{likes.toLocaleString()} {likes === 1 ? "like" : "likes"}</div>

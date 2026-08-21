@@ -40,6 +40,7 @@ export function PostCard({ post }: { post: PostWithMeta }) {
   const qc = useQueryClient();
   const [liked, setLiked] = useState(post.liked_by_me);
   const [likes, setLikes] = useState(post.likes_count);
+  const [shares, setShares] = useState(post.shares_count ?? 0);
   const [animatingHeart, setAnimatingHeart] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);

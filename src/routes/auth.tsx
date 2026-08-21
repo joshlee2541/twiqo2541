@@ -9,7 +9,6 @@ import { signInWithPhone, signUpWithPhone } from "@/lib/phone-auth.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import logoAsset from "@/assets/vibelink-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Log in • VibeLink" }] }),
@@ -50,7 +49,6 @@ function AuthPage() {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-10">
       <div className="w-full max-w-sm">
         <div className="bg-card border border-border rounded-lg px-8 py-10 flex flex-col items-center">
-          <img src={logoAsset.url} alt="VibeLink" className="h-20 w-20 rounded-2xl mb-4 mt-2 shadow-md" />
           <h1 className="vibelink-logo text-4xl mb-6">VibeLink</h1>
 
           <div className="w-full grid grid-cols-2 gap-1 p-1 mb-4 rounded-lg bg-muted">

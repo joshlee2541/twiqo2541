@@ -30,11 +30,12 @@ function HomeFeed() {
       const userIds = [...new Set(postRows.map((p) => p.user_id))];
       const postIds = postRows.map((p) => p.id);
 
-      const [{ data: profiles }, { data: likes }, { data: myLikes }, { data: comments }] = await Promise.all([
+      const [{ data: profiles }, { data: likes }, { data: myLikes }, { data: comments }, { data: shares }] = await Promise.all([
         supabase.from("profiles").select("id, username, avatar_url, full_name, verified, verified_until").in("id", userIds),
         supabase.from("likes").select("post_id").in("post_id", postIds),
         user ? supabase.from("likes").select("post_id").in("post_id", postIds).eq("user_id", user.id) : Promise.resolve({ data: [] as { post_id: string }[] }),
         supabase.from("comments").select("post_id").in("post_id", postIds),
+        supabase.from("post_shares").select("post_id").in("post_id", postIds),
       ]);
 
       const profileMap = new Map((profiles ?? []).map((p) => [p.id, p]));
@@ -42,6 +43,8 @@ function HomeFeed() {
       (likes ?? []).forEach((l) => likeCount.set(l.post_id, (likeCount.get(l.post_id) ?? 0) + 1));
       const commentCount = new Map<string, number>();
       (comments ?? []).forEach((c) => commentCount.set(c.post_id, (commentCount.get(c.post_id) ?? 0) + 1));
+      const shareCount = new Map<string, number>();
+      (shares ?? []).forEach((s) => shareCount.set(s.post_id, (shareCount.get(s.post_id) ?? 0) + 1));
       const myLikeSet = new Set((myLikes ?? []).map((l) => l.post_id));
 
       return postRows.map((p) => ({
@@ -49,6 +52,7 @@ function HomeFeed() {
         profile: profileMap.get(p.user_id) ?? null,
         likes_count: likeCount.get(p.id) ?? 0,
         comments_count: commentCount.get(p.id) ?? 0,
+        shares_count: shareCount.get(p.id) ?? 0,
         liked_by_me: myLikeSet.has(p.id),
       }));
     },

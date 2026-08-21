@@ -29,14 +29,18 @@ export interface PostWithMeta {
   profile: { username: string; avatar_url: string | null; full_name: string | null; verified?: boolean | null; verified_until?: string | null } | null;
   likes_count: number;
   comments_count: number;
+  shares_count?: number;
   liked_by_me: boolean;
 }
+
+const compact = (n: number) => Intl.NumberFormat("en", { notation: "compact" }).format(n);
 
 export function PostCard({ post }: { post: PostWithMeta }) {
   const { user } = useAuth();
   const qc = useQueryClient();
   const [liked, setLiked] = useState(post.liked_by_me);
   const [likes, setLikes] = useState(post.likes_count);
+  const [shares, setShares] = useState(post.shares_count ?? 0);
   const [animatingHeart, setAnimatingHeart] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -67,12 +71,23 @@ export function PostCard({ post }: { post: PostWithMeta }) {
     } catch { toast.error("Couldn't copy link"); }
   };
 
+  const recordShare = async () => {
+    setShares((n) => n + 1);
+    if (user) await supabase.from("post_shares").insert({ post_id: post.id, user_id: user.id });
+  };
+
   const share = async () => {
     const url = `${window.location.origin}/post/${post.id}`;
     if (navigator.share) {
-      try { await navigator.share({ title: "VibeLink post", url }); return; } catch { /* cancelled */ }
+      try {
+        await navigator.share({ title: "VibeLink post", url });
+        await recordShare();
+        return;
+      } catch { /* cancelled */ }
+      return;
     }
-    copyLink();
+    await copyLink();
+    await recordShare();
   };
 
   const doDelete = async () => {
@@ -133,14 +148,19 @@ export function PostCard({ post }: { post: PostWithMeta }) {
       </div>
 
       <div className="px-4 py-2">
-        <div className="flex items-center gap-4">
-          <button onClick={toggleLike} aria-label="Like" className="active:scale-90 transition-transform">
+        <div className="flex items-center gap-5">
+          <button onClick={toggleLike} aria-label="Like" className="flex items-center gap-1.5 active:scale-90 transition-transform">
             <Heart className={cn("h-7 w-7", liked && "fill-[var(--like)] text-[var(--like)]")} />
+            {likes > 0 && <span className="text-sm font-semibold">{compact(likes)}</span>}
           </button>
-          <Link to="/post/$id" params={{ id: post.id }} aria-label="Comment">
+          <Link to="/post/$id" params={{ id: post.id }} aria-label="Comment" className="flex items-center gap-1.5">
             <MessageCircle className="h-7 w-7" />
+            {post.comments_count > 0 && <span className="text-sm font-semibold">{compact(post.comments_count)}</span>}
           </Link>
-          <button aria-label="Share" onClick={share}><Send className="h-7 w-7" /></button>
+          <button aria-label="Share" onClick={share} className="flex items-center gap-1.5 active:scale-90 transition-transform">
+            <Send className="h-7 w-7" />
+            {shares > 0 && <span className="text-sm font-semibold">{compact(shares)}</span>}
+          </button>
           <button aria-label="Save" className="ml-auto"><Bookmark className="h-7 w-7" /></button>
         </div>
         <div className="text-sm font-semibold mt-2">{likes.toLocaleString()} {likes === 1 ? "like" : "likes"}</div>

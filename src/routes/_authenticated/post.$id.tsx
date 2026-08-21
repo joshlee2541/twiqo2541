@@ -23,10 +23,11 @@ function PostDetail() {
     queryFn: async (): Promise<PostWithMeta | null> => {
       const { data: p } = await supabase.from("posts").select("*").eq("id", id).maybeSingle();
       if (!p) return null;
-      const [{ data: profile }, { count: lc }, { count: cc }, myLike] = await Promise.all([
+      const [{ data: profile }, { count: lc }, { count: cc }, { count: sc }, myLike] = await Promise.all([
         supabase.from("profiles").select("username, avatar_url, full_name, verified, verified_until").eq("id", p.user_id).maybeSingle(),
         supabase.from("likes").select("*", { count: "exact", head: true }).eq("post_id", id),
         supabase.from("comments").select("*", { count: "exact", head: true }).eq("post_id", id),
+        supabase.from("post_shares").select("*", { count: "exact", head: true }).eq("post_id", id),
         user ? supabase.from("likes").select("post_id").eq("post_id", id).eq("user_id", user.id).maybeSingle() : Promise.resolve({ data: null }),
       ]);
       return {
@@ -34,6 +35,7 @@ function PostDetail() {
         profile: profile ?? null,
         likes_count: lc ?? 0,
         comments_count: cc ?? 0,
+        shares_count: sc ?? 0,
         liked_by_me: !!myLike.data,
       };
     },

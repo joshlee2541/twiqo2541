@@ -30,11 +30,12 @@ function HomeFeed() {
       const userIds = [...new Set(postRows.map((p) => p.user_id))];
       const postIds = postRows.map((p) => p.id);
 
-      const [{ data: profiles }, { data: likes }, { data: myLikes }, { data: comments }] = await Promise.all([
+      const [{ data: profiles }, { data: likes }, { data: myLikes }, { data: comments }, { data: shares }] = await Promise.all([
         supabase.from("profiles").select("id, username, avatar_url, full_name, verified, verified_until").in("id", userIds),
         supabase.from("likes").select("post_id").in("post_id", postIds),
         user ? supabase.from("likes").select("post_id").in("post_id", postIds).eq("user_id", user.id) : Promise.resolve({ data: [] as { post_id: string }[] }),
         supabase.from("comments").select("post_id").in("post_id", postIds),
+        supabase.from("post_shares").select("post_id").in("post_id", postIds),
       ]);
 
       const profileMap = new Map((profiles ?? []).map((p) => [p.id, p]));

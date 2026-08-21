@@ -43,6 +43,8 @@ function HomeFeed() {
       (likes ?? []).forEach((l) => likeCount.set(l.post_id, (likeCount.get(l.post_id) ?? 0) + 1));
       const commentCount = new Map<string, number>();
       (comments ?? []).forEach((c) => commentCount.set(c.post_id, (commentCount.get(c.post_id) ?? 0) + 1));
+      const shareCount = new Map<string, number>();
+      (shares ?? []).forEach((s) => shareCount.set(s.post_id, (shareCount.get(s.post_id) ?? 0) + 1));
       const myLikeSet = new Set((myLikes ?? []).map((l) => l.post_id));
 
       return postRows.map((p) => ({

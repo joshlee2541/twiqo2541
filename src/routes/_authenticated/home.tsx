@@ -52,6 +52,7 @@ function HomeFeed() {
         profile: profileMap.get(p.user_id) ?? null,
         likes_count: likeCount.get(p.id) ?? 0,
         comments_count: commentCount.get(p.id) ?? 0,
+        shares_count: shareCount.get(p.id) ?? 0,
         liked_by_me: myLikeSet.has(p.id),
       }));
     },

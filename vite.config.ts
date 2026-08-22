@@ -19,6 +19,7 @@ export default defineConfig({
         strategies: "generateSW",
         registerType: "autoUpdate",
         filename: "sw.js",
+        outDir: "dist/client",
         injectRegister: null,
         // We ship our own public/manifest.webmanifest — do not emit a second one.
         manifest: false,

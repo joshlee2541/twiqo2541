@@ -9,36 +9,40 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
-import { Route as AuthenticatedReelsRouteImport } from './routes/_authenticated/reels'
-import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
-import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
-import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
-import { Route as AuthenticatedGoliveRouteImport } from './routes/_authenticated/golive'
-import { Route as AuthenticatedExploreRouteImport } from './routes/_authenticated/explore'
-import { Route as AuthenticatedEditProfileRouteImport } from './routes/_authenticated/edit-profile'
-import { Route as AuthenticatedCreateReelRouteImport } from './routes/_authenticated/create-reel'
-import { Route as AuthenticatedCreateRouteImport } from './routes/_authenticated/create'
-import { Route as AuthenticatedCloseFriendsRouteImport } from './routes/_authenticated/close-friends'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedCallsRouteImport } from './routes/_authenticated/calls'
-import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
-import { Route as AuthenticatedStoriesUserIdRouteImport } from './routes/_authenticated/stories.$userId'
-import { Route as AuthenticatedSettingsSectionRouteImport } from './routes/_authenticated/settings.$section'
-import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_authenticated/profile.$username'
-import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
-import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
-import { Route as AuthenticatedLiveIdRouteImport } from './routes/_authenticated/live.$id'
+import { Route as AuthenticatedCloseFriendsRouteImport } from './routes/_authenticated/close-friends'
+import { Route as AuthenticatedCreateRouteImport } from './routes/_authenticated/create'
+import { Route as AuthenticatedCreateReelRouteImport } from './routes/_authenticated/create-reel'
+import { Route as AuthenticatedEditProfileRouteImport } from './routes/_authenticated/edit-profile'
+import { Route as AuthenticatedExploreRouteImport } from './routes/_authenticated/explore'
+import { Route as AuthenticatedGoliveRouteImport } from './routes/_authenticated/golive'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedReelsRouteImport } from './routes/_authenticated/reels'
+import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedCallIdRouteImport } from './routes/_authenticated/call.$id'
+import { Route as AuthenticatedLiveIdRouteImport } from './routes/_authenticated/live.$id'
+import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
+import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
+import { Route as AuthenticatedPostIdRouteImport } from './routes/_authenticated/post.$id'
+import { Route as AuthenticatedProfileUsernameRouteImport } from './routes/_authenticated/profile.$username'
+import { Route as AuthenticatedSettingsSectionRouteImport } from './routes/_authenticated/settings.$section'
+import { Route as AuthenticatedStoriesUserIdRouteImport } from './routes/_authenticated/stories.$userId'
 import { Route as AuthenticatedMessagesIdInfoRouteImport } from './routes/_authenticated/messages.$id.info'
 
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -46,70 +50,14 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
-  id: '/saved',
-  path: '/saved',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedReelsRoute = AuthenticatedReelsRouteImport.update({
-  id: '/reels',
-  path: '/reels',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedNotificationsRoute =
-  AuthenticatedNotificationsRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedGoliveRoute = AuthenticatedGoliveRouteImport.update({
-  id: '/golive',
-  path: '/golive',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedExploreRoute = AuthenticatedExploreRouteImport.update({
-  id: '/explore',
-  path: '/explore',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEditProfileRoute =
-  AuthenticatedEditProfileRouteImport.update({
-    id: '/edit-profile',
-    path: '/edit-profile',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCreateReelRoute = AuthenticatedCreateReelRouteImport.update({
-  id: '/create-reel',
-  path: '/create-reel',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCreateRoute = AuthenticatedCreateRouteImport.update({
-  id: '/create',
-  path: '/create',
+const AuthenticatedCallsRoute = AuthenticatedCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCloseFriendsRoute =
@@ -118,9 +66,71 @@ const AuthenticatedCloseFriendsRoute =
     path: '/close-friends',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedCallsRoute = AuthenticatedCallsRouteImport.update({
-  id: '/calls',
-  path: '/calls',
+const AuthenticatedCreateRoute = AuthenticatedCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCreateReelRoute = AuthenticatedCreateReelRouteImport.update({
+  id: '/create-reel',
+  path: '/create-reel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEditProfileRoute =
+  AuthenticatedEditProfileRouteImport.update({
+    id: '/edit-profile',
+    path: '/edit-profile',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedExploreRoute = AuthenticatedExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGoliveRoute = AuthenticatedGoliveRouteImport.update({
+  id: '/golive',
+  path: '/golive',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedReelsRoute = AuthenticatedReelsRouteImport.update({
+  id: '/reels',
+  path: '/reels',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCallIdRoute = AuthenticatedCallIdRouteImport.update({
+  id: '/call/$id',
+  path: '/call/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLiveIdRoute = AuthenticatedLiveIdRouteImport.update({
+  id: '/live/$id',
+  path: '/live/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMessagesIndexRoute =
@@ -129,10 +139,20 @@ const AuthenticatedMessagesIndexRoute =
     path: '/messages/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedStoriesUserIdRoute =
-  AuthenticatedStoriesUserIdRouteImport.update({
-    id: '/stories/$userId',
-    path: '/stories/$userId',
+const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
+  id: '/messages/$id',
+  path: '/messages/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPostIdRoute = AuthenticatedPostIdRouteImport.update({
+  id: '/post/$id',
+  path: '/post/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfileUsernameRoute =
+  AuthenticatedProfileUsernameRouteImport.update({
+    id: '/profile/$username',
+    path: '/profile/$username',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSettingsSectionRoute =
@@ -141,32 +161,12 @@ const AuthenticatedSettingsSectionRoute =
     path: '/$section',
     getParentRoute: () => AuthenticatedSettingsRoute,
   } as any)
-const AuthenticatedProfileUsernameRoute =
-  AuthenticatedProfileUsernameRouteImport.update({
-    id: '/profile/$username',
-    path: '/profile/$username',
+const AuthenticatedStoriesUserIdRoute =
+  AuthenticatedStoriesUserIdRouteImport.update({
+    id: '/stories/$userId',
+    path: '/stories/$userId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedPostIdRoute = AuthenticatedPostIdRouteImport.update({
-  id: '/post/$id',
-  path: '/post/$id',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
-  id: '/messages/$id',
-  path: '/messages/$id',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedLiveIdRoute = AuthenticatedLiveIdRouteImport.update({
-  id: '/live/$id',
-  path: '/live/$id',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCallIdRoute = AuthenticatedCallIdRouteImport.update({
-  id: '/call/$id',
-  path: '/call/$id',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedMessagesIdInfoRoute =
   AuthenticatedMessagesIdInfoRouteImport.update({
     id: '/info',
@@ -351,18 +351,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -372,88 +365,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/saved': {
-      id: '/_authenticated/saved'
-      path: '/saved'
-      fullPath: '/saved'
-      preLoaderRoute: typeof AuthenticatedSavedRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/reels': {
-      id: '/_authenticated/reels'
-      path: '/reels'
-      fullPath: '/reels'
-      preLoaderRoute: typeof AuthenticatedReelsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/onboarding': {
-      id: '/_authenticated/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications': {
-      id: '/_authenticated/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/home': {
-      id: '/_authenticated/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof AuthenticatedHomeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/golive': {
-      id: '/_authenticated/golive'
-      path: '/golive'
-      fullPath: '/golive'
-      preLoaderRoute: typeof AuthenticatedGoliveRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/explore': {
-      id: '/_authenticated/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof AuthenticatedExploreRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/edit-profile': {
-      id: '/_authenticated/edit-profile'
-      path: '/edit-profile'
-      fullPath: '/edit-profile'
-      preLoaderRoute: typeof AuthenticatedEditProfileRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/create-reel': {
-      id: '/_authenticated/create-reel'
-      path: '/create-reel'
-      fullPath: '/create-reel'
-      preLoaderRoute: typeof AuthenticatedCreateReelRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/create': {
-      id: '/_authenticated/create'
-      path: '/create'
-      fullPath: '/create'
-      preLoaderRoute: typeof AuthenticatedCreateRouteImport
+    '/_authenticated/calls': {
+      id: '/_authenticated/calls'
+      path: '/calls'
+      fullPath: '/calls'
+      preLoaderRoute: typeof AuthenticatedCallsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/close-friends': {
@@ -463,53 +393,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCloseFriendsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/calls': {
-      id: '/_authenticated/calls'
-      path: '/calls'
-      fullPath: '/calls'
-      preLoaderRoute: typeof AuthenticatedCallsRouteImport
+    '/_authenticated/create': {
+      id: '/_authenticated/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof AuthenticatedCreateRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/messages/': {
-      id: '/_authenticated/messages/'
-      path: '/messages'
-      fullPath: '/messages/'
-      preLoaderRoute: typeof AuthenticatedMessagesIndexRouteImport
+    '/_authenticated/create-reel': {
+      id: '/_authenticated/create-reel'
+      path: '/create-reel'
+      fullPath: '/create-reel'
+      preLoaderRoute: typeof AuthenticatedCreateReelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/stories/$userId': {
-      id: '/_authenticated/stories/$userId'
-      path: '/stories/$userId'
-      fullPath: '/stories/$userId'
-      preLoaderRoute: typeof AuthenticatedStoriesUserIdRouteImport
+    '/_authenticated/edit-profile': {
+      id: '/_authenticated/edit-profile'
+      path: '/edit-profile'
+      fullPath: '/edit-profile'
+      preLoaderRoute: typeof AuthenticatedEditProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/settings/$section': {
-      id: '/_authenticated/settings/$section'
-      path: '/$section'
-      fullPath: '/settings/$section'
-      preLoaderRoute: typeof AuthenticatedSettingsSectionRouteImport
-      parentRoute: typeof AuthenticatedSettingsRoute
-    }
-    '/_authenticated/profile/$username': {
-      id: '/_authenticated/profile/$username'
-      path: '/profile/$username'
-      fullPath: '/profile/$username'
-      preLoaderRoute: typeof AuthenticatedProfileUsernameRouteImport
+    '/_authenticated/explore': {
+      id: '/_authenticated/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof AuthenticatedExploreRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/post/$id': {
-      id: '/_authenticated/post/$id'
-      path: '/post/$id'
-      fullPath: '/post/$id'
-      preLoaderRoute: typeof AuthenticatedPostIdRouteImport
+    '/_authenticated/golive': {
+      id: '/_authenticated/golive'
+      path: '/golive'
+      fullPath: '/golive'
+      preLoaderRoute: typeof AuthenticatedGoliveRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/messages/$id': {
-      id: '/_authenticated/messages/$id'
-      path: '/messages/$id'
-      fullPath: '/messages/$id'
-      preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reels': {
+      id: '/_authenticated/reels'
+      path: '/reels'
+      fullPath: '/reels'
+      preLoaderRoute: typeof AuthenticatedReelsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saved': {
+      id: '/_authenticated/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof AuthenticatedSavedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/call/$id': {
+      id: '/_authenticated/call/$id'
+      path: '/call/$id'
+      fullPath: '/call/$id'
+      preLoaderRoute: typeof AuthenticatedCallIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/live/$id': {
@@ -519,11 +484,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLiveIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/call/$id': {
-      id: '/_authenticated/call/$id'
-      path: '/call/$id'
-      fullPath: '/call/$id'
-      preLoaderRoute: typeof AuthenticatedCallIdRouteImport
+    '/_authenticated/messages/': {
+      id: '/_authenticated/messages/'
+      path: '/messages'
+      fullPath: '/messages/'
+      preLoaderRoute: typeof AuthenticatedMessagesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/messages/$id': {
+      id: '/_authenticated/messages/$id'
+      path: '/messages/$id'
+      fullPath: '/messages/$id'
+      preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/post/$id': {
+      id: '/_authenticated/post/$id'
+      path: '/post/$id'
+      fullPath: '/post/$id'
+      preLoaderRoute: typeof AuthenticatedPostIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile/$username': {
+      id: '/_authenticated/profile/$username'
+      path: '/profile/$username'
+      fullPath: '/profile/$username'
+      preLoaderRoute: typeof AuthenticatedProfileUsernameRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings/$section': {
+      id: '/_authenticated/settings/$section'
+      path: '/$section'
+      fullPath: '/settings/$section'
+      preLoaderRoute: typeof AuthenticatedSettingsSectionRouteImport
+      parentRoute: typeof AuthenticatedSettingsRoute
+    }
+    '/_authenticated/stories/$userId': {
+      id: '/_authenticated/stories/$userId'
+      path: '/stories/$userId'
+      fullPath: '/stories/$userId'
+      preLoaderRoute: typeof AuthenticatedStoriesUserIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/messages/$id/info': {

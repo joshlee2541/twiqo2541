@@ -3,6 +3,7 @@ import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Trash2, Link2, Sh
 import { Link } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { triggerPush } from "@/lib/push";
 import { useAuth } from "@/lib/auth";
 import { SignedImage } from "./SignedImage";
 import { UserAvatar } from "./Avatar";
@@ -55,6 +56,7 @@ export function PostCard({ post }: { post: PostWithMeta }) {
       setLiked(true); setLikes((n) => n + 1);
       const { error } = await supabase.from("likes").insert({ post_id: post.id, user_id: user.id });
       if (error && !error.message.includes("duplicate")) toast.error("Couldn't like");
+      else if (!error) triggerPush();
     }
   };
 

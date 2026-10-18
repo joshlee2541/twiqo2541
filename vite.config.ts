@@ -28,6 +28,7 @@ export default defineConfig({
           globPatterns: ["**/*.{js,css,woff,woff2}"],
           // SSR app: no precached HTML shell, navigations go through runtime caching.
           navigateFallback: undefined,
+          importScripts: ["/push-sw.js"],
           cleanupOutdatedCaches: true,
           clientsClaim: true,
           skipWaiting: true,

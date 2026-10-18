@@ -2,6 +2,7 @@ import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { triggerPush } from "@/lib/push";
 import { useAuth } from "@/lib/auth";
 import { PostCard, type PostWithMeta } from "@/components/PostCard";
 import { UserAvatar } from "@/components/Avatar";
@@ -62,7 +63,7 @@ function PostDetail() {
     const v = text.trim().slice(0, 500);
     setText("");
     const { error } = await supabase.from("comments").insert({ post_id: id, user_id: user.id, content: v });
-    if (!error) qc.invalidateQueries({ queryKey: ["comments", id] });
+    if (!error) { qc.invalidateQueries({ queryKey: ["comments", id] }); triggerPush(); }
   };
 
   if (!post) return <div className="p-8 text-center text-muted-foreground">Loading...</div>;

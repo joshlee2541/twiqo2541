@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { triggerPush } from "@/lib/push";
 import { useAuth } from "@/lib/auth";
 import { UserAvatar } from "@/components/Avatar";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
@@ -74,6 +75,7 @@ function Profile() {
     } else {
       const { error } = await supabase.from("follows").insert({ follower_id: user.id, following_id: profile.id });
       if (error) { toast.error(error.message); return; }
+      triggerPush();
     }
     qc.invalidateQueries({ queryKey: ["is-following"] });
     qc.invalidateQueries({ queryKey: ["profile-stats"] });

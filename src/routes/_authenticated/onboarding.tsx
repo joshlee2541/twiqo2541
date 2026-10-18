@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { triggerPush } from "@/lib/push";
 import { useAuth } from "@/lib/auth";
 import { uploadMedia } from "@/lib/storage";
 import { UserAvatar } from "@/components/Avatar";
@@ -65,6 +66,7 @@ function Onboarding() {
       await supabase.from("follows").delete().eq("follower_id", user.id).eq("following_id", uid);
     } else {
       await supabase.from("follows").insert({ follower_id: user.id, following_id: uid });
+      triggerPush();
     }
     setSuggested((s) => s.map((u) => u.id === uid ? { ...u, followed: !followed } : u));
   };

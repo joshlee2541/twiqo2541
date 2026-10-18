@@ -500,6 +500,42 @@ export type Database = {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          actor_id: string
+          comment_id: string | null
+          created_at: string
+          id: string
+          post_id: string | null
+          pushed: boolean
+          read: boolean
+          recipient_id: string
+          type: string
+        }
+        Insert: {
+          actor_id: string
+          comment_id?: string | null
+          created_at?: string
+          id?: string
+          post_id?: string | null
+          pushed?: boolean
+          read?: boolean
+          recipient_id: string
+          type: string
+        }
+        Update: {
+          actor_id?: string
+          comment_id?: string | null
+          created_at?: string
+          id?: string
+          post_id?: string | null
+          pushed?: boolean
+          read?: boolean
+          recipient_id?: string
+          type?: string
+        }
+        Relationships: []
+      }
       phone_verifications: {
         Row: {
           attempts: number
@@ -646,6 +682,33 @@ export type Database = {
           verified?: boolean
           verified_until?: string | null
           website?: string | null
+        }
+        Relationships: []
+      }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          endpoint: string
+          id: string
+          p256dh: string
+          user_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          endpoint: string
+          id?: string
+          p256dh: string
+          user_id: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          id?: string
+          p256dh?: string
+          user_id?: string
         }
         Relationships: []
       }

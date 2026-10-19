@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
@@ -11,7 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/edit-profile")({
-  head: () => ({ meta: [{ title: "Edit profile • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Edit profile • VibeLink", "Manage your VibeLink profile details.", "/edit-profile"),
   component: EditProfile,
 });
 

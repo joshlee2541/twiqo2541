@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,7 +15,8 @@ import { Link as RLink } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile/$username")({
-  head: ({ params }) => ({ meta: [{ title: `@${params.username} • VibeLink` }] }),
+  staticData: { sitemap: false },
+  head: ({ params }) => pageSEO("Profile • VibeLink", "View a VibeLink profile after signing in.", `/profile/${encodeURIComponent(params.username)}`),
   component: Profile,
 });
 

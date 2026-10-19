@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,7 +11,8 @@ import { toast } from "sonner";
 import { setPresenceSharing } from "@/lib/presence";
 
 export const Route = createFileRoute("/_authenticated/settings/$section")({
-  head: ({ params }) => ({ meta: [{ title: `${prettify(params.section)} • VibeLink` }] }),
+  staticData: { sitemap: false },
+  head: ({ params }) => pageSEO("Account settings • VibeLink", "Manage your VibeLink account preferences.", `/settings/${encodeURIComponent(params.section)}`),
   component: SectionPage,
 });
 

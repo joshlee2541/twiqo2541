@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Radio, Users, Lock, Globe, Star } from "lucide-react";
@@ -9,16 +10,8 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/golive")({
-  head: () => ({
-    meta: [
-      { title: "Go Live • VibeLink" },
-      { name: "description", content: "Start a live broadcast on VibeLink and chat with your followers in real time." },
-      { property: "og:title", content: "Go Live • VibeLink" },
-      { property: "og:description", content: "Start a live broadcast on VibeLink and chat with your followers in real time." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Go live • VibeLink", "Start your VibeLink live broadcast.", "/golive"),
   component: GoLive,
 });
 

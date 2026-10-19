@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { Input } from "@/components/ui/input";
@@ -5,7 +6,8 @@ import { ChevronRight, Search, LogOut } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/settings")({
-  head: () => ({ meta: [{ title: "Settings • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Settings • VibeLink", "Manage your VibeLink settings.", "/settings"),
   component: SettingsHub,
 });
 

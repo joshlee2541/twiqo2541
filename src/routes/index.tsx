@@ -1,7 +1,10 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: false },
+  head: () => pageSEO("VibeLink — Share photos, reels and connect with friends", "Share photos and reels, discover creators, and connect with friends on VibeLink.", "/", true),
   component: Landing,
 });
 

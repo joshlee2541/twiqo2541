@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,7 +9,8 @@ import { Heart, MessageCircle, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/reels")({
-  head: () => ({ meta: [{ title: "Reels • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Reels • VibeLink", "Watch reels on VibeLink.", "/reels"),
   component: ReelsFeed,
 });
 

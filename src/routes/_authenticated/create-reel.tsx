@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Film } from "lucide-react";
@@ -9,7 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/create-reel")({
-  head: () => ({ meta: [{ title: "New Reel • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("New reel • VibeLink", "Create a reel on VibeLink.", "/create-reel"),
   component: CreateReel,
 });
 

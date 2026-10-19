@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,7 +9,8 @@ import { ChevronLeft, Check, Search } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/close-friends")({
-  head: () => ({ meta: [{ title: "Close friends • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Close friends • VibeLink", "Manage your VibeLink close friends.", "/close-friends"),
   component: CloseFriends,
 });
 

@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,7 +8,8 @@ import { UserAvatar } from "@/components/Avatar";
 import { X } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/stories/$userId")({
-  head: () => ({ meta: [{ title: "Story • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: ({ params }) => pageSEO("Story • VibeLink", "View VibeLink stories after signing in.", `/stories/${encodeURIComponent(params.userId)}`),
   component: StoryViewer,
 });
 

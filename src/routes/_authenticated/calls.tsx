@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,7 +8,8 @@ import { ChevronLeft, Phone, Video, PhoneIncoming, PhoneMissed, PhoneOutgoing, U
 import { timeAgo } from "@/lib/timeAgo";
 
 export const Route = createFileRoute("/_authenticated/calls")({
-  head: () => ({ meta: [{ title: "Calls • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Calls • VibeLink", "Your VibeLink call history.", "/calls"),
   component: CallsHistory,
 });
 

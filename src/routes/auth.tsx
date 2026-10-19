@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -11,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Log in • VibeLink" }] }),
+  staticData: { sitemap: true },
+  head: () => pageSEO("Log in or sign up — VibeLink", "Join VibeLink to share photos and reels, follow friends, and discover creators.", "/auth", true),
   component: AuthPage,
 });
 
@@ -42,7 +44,7 @@ function AuthPage() {
   const { user, loading } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [method, setMethod] = useState<"email" | "phone">("email");
-  if (loading) return null;
+  if (loading) return <div role="status" className="min-h-screen flex items-center justify-center vibelink-logo text-4xl">VibeLink</div>;
   if (user) return <Navigate to="/home" />;
 
   return (
@@ -53,16 +55,16 @@ function AuthPage() {
 
           <div className="w-full grid grid-cols-2 gap-1 p-1 mb-4 rounded-lg bg-muted">
             {(["email", "phone"] as const).map((m) => (
-              <button
+              <Button variant="ghost"
                 key={m}
                 type="button"
-                onClick={() => setMethod(m)}
+                aria-pressed={method === m} onClick={() => setMethod(m)}
                 className={`h-8 rounded-md text-sm font-semibold capitalize transition-colors ${
                   method === m ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"
                 }`}
               >
                 {m === "email" ? "Email" : "Phone"}
-              </button>
+              </Button>
             ))}
           </div>
 
@@ -75,11 +77,11 @@ function AuthPage() {
         <div className="bg-card border border-border rounded-lg mt-3 py-4 text-center text-sm">
           {mode === "login" ? (
             <>Don't have an account?{" "}
-              <button onClick={() => setMode("signup")} className="text-primary font-semibold">Sign up</button>
+              <Button variant="ghost" onClick={() => setMode("signup")} className="text-primary font-semibold">Sign up</Button>
             </>
           ) : (
             <>Have an account?{" "}
-              <button onClick={() => setMode("login")} className="text-primary font-semibold">Log in</button>
+              <Button variant="ghost" onClick={() => setMode("login")} className="text-primary font-semibold">Log in</Button>
             </>
           )}
         </div>
@@ -147,7 +149,7 @@ function PhoneAuthForm({ mode, onDone }: { mode: "login" | "signup"; onDone: () 
       </p>
       <Input
         type="tel"
-        placeholder="+1 555 000 0000"
+        placeholder="+1 555 000 0000" aria-label="Phone number"
         value={phone}
         onChange={(e) => setPhone(e.target.value.replace(/[^\d+]/g, ""))}
         className="h-11 bg-muted border-border"
@@ -155,23 +157,23 @@ function PhoneAuthForm({ mode, onDone }: { mode: "login" | "signup"; onDone: () 
       />
       {mode === "signup" && (
         <>
-          <Input placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} className="h-11 bg-muted border-border" autoComplete="name" />
-          <Input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="h-11 bg-muted border-border" autoComplete="username" />
+          <Input placeholder="Full Name" aria-label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} className="h-11 bg-muted border-border" autoComplete="name" />
+          <Input placeholder="Username" aria-label="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="h-11 bg-muted border-border" autoComplete="username" />
         </>
       )}
       <div className="relative">
         <Input
           type={show ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Password" aria-label="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="h-11 bg-muted border-border pr-10"
           autoComplete={mode === "signup" ? "new-password" : "current-password"}
         />
         {password && (
-          <button type="button" onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2">
+          <Button variant="ghost" type="button" aria-label={show ? "Hide password" : "Show password"} aria-pressed={show} onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2">
             {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>
+          </Button>
         )}
       </div>
       <Button type="submit" disabled={busy} className="w-full h-10 rounded-lg font-semibold">
@@ -218,7 +220,7 @@ function LoginForm() {
     <form onSubmit={onSubmit} className="w-full space-y-2">
       <Input
         type="text"
-        placeholder="Username or email"
+        placeholder="Username or email" aria-label="Username or email"
         value={identifier}
         onChange={(e) => setIdentifier(e.target.value)}
         className="h-11 bg-muted border-border"
@@ -227,16 +229,16 @@ function LoginForm() {
       <div className="relative">
         <Input
           type={show ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Password" aria-label="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="h-11 bg-muted border-border pr-10"
           autoComplete="current-password"
         />
         {password && (
-          <button type="button" onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold">
+          <Button variant="ghost" type="button" aria-label={show ? "Hide password" : "Show password"} aria-pressed={show} onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold">
             {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>
+          </Button>
         )}
       </div>
       <Button type="submit" disabled={busy} className="w-full h-10 rounded-lg font-semibold">
@@ -247,9 +249,9 @@ function LoginForm() {
         <span className="text-xs uppercase text-muted-foreground font-semibold">or</span>
         <div className="h-px bg-border flex-1" />
       </div>
-      <button type="button" onClick={onForgot} className="w-full text-center text-xs text-primary py-2">
+      <Button variant="ghost" type="button" onClick={onForgot} className="w-full text-center text-xs text-primary py-2">
         Forgot password?
-      </button>
+      </Button>
     </form>
   );
 }
@@ -288,22 +290,22 @@ function SignupForm({ onDone }: { onDone: () => void }) {
       <p className="text-sm text-muted-foreground text-center mb-3">
         Sign up to see photos and videos from friends.
       </p>
-      <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="h-11 bg-muted border-border" autoComplete="email" />
-      <Input placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} className="h-11 bg-muted border-border" autoComplete="name" />
-      <Input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="h-11 bg-muted border-border" autoComplete="username" />
+      <Input placeholder="Email" aria-label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="h-11 bg-muted border-border" autoComplete="email" />
+      <Input placeholder="Full Name" aria-label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} className="h-11 bg-muted border-border" autoComplete="name" />
+      <Input placeholder="Username" aria-label="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="h-11 bg-muted border-border" autoComplete="username" />
       <div className="relative">
         <Input
           type={show ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Password" aria-label="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="h-11 bg-muted border-border pr-10"
           autoComplete="new-password"
         />
         {password && (
-          <button type="button" onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2">
+          <Button variant="ghost" type="button" aria-label={show ? "Hide password" : "Show password"} aria-pressed={show} onClick={() => setShow((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2">
             {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>
+          </Button>
         )}
       </div>
       <label className="flex items-start gap-2 text-xs text-muted-foreground py-2">

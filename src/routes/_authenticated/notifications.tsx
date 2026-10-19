@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -10,7 +11,8 @@ import { timeAgo } from "@/lib/timeAgo";
 import { enablePush, disablePush, isPushEnabled, pushSupported } from "@/lib/push";
 
 export const Route = createFileRoute("/_authenticated/notifications")({
-  head: () => ({ meta: [{ title: "Activity • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Activity • VibeLink", "Your VibeLink notifications.", "/notifications"),
   component: Notifications,
 });
 

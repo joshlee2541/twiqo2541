@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,7 +10,8 @@ import { LiveRow } from "@/components/LiveRow";
 import { Camera } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/home")({
-  head: () => ({ meta: [{ title: "Home • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Home • VibeLink", "Your VibeLink feed of photos and creators.", "/home"),
   component: HomeFeed,
 });
 

@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,7 +11,8 @@ import { Plus, ChevronLeft, Folder } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/saved")({
-  head: () => ({ meta: [{ title: "Saved • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Saved • VibeLink", "Your saved VibeLink posts.", "/saved"),
   component: Saved,
 });
 

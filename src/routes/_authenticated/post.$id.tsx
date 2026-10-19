@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -10,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/post/$id")({
+  staticData: { sitemap: false },
+  head: ({ params }) => pageSEO("Post • VibeLink", "View a VibeLink post after signing in.", `/post/${encodeURIComponent(params.id)}`),
   component: PostDetail,
 });
 

@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,7 +15,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/messages/")({
-  head: () => ({ meta: [{ title: "Messages • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Messages • VibeLink", "Your private VibeLink messages.", "/messages"),
   component: MessagesList,
 });
 

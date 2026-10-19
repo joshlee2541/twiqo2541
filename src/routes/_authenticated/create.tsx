@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { ImagePlus } from "lucide-react";
@@ -12,7 +13,8 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_authenticated/create")({
-  head: () => ({ meta: [{ title: "Create • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Create post • VibeLink", "Share a photo on VibeLink.", "/create"),
   component: CreatePost,
 });
 

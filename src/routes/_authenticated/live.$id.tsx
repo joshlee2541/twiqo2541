@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useNavigate, useParams, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, useCallback } from "react";
 import {
@@ -15,16 +16,8 @@ import {
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/live/$id")({
-  head: () => ({
-    meta: [
-      { title: "Live • VibeLink" },
-      { name: "description", content: "Watch and join live broadcasts on VibeLink with real-time comments and reactions." },
-      { property: "og:title", content: "Live • VibeLink" },
-      { property: "og:description", content: "Watch and join live broadcasts on VibeLink with real-time comments and reactions." },
-      { property: "og:type", content: "video.other" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
+  staticData: { sitemap: false },
+  head: ({ params }) => pageSEO("Live • VibeLink", "Watch a VibeLink live broadcast.", `/live/${encodeURIComponent(params.id)}`),
   component: LiveRoom,
 });
 

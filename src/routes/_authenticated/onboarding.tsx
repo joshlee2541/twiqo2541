@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,7 +14,8 @@ import { Camera, Check, ChevronRight, Sparkles, Users, Bell, MessageCircle, Comp
 import logoAsset from "@/assets/vibelink-logo.png.asset.json";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
-  head: () => ({ meta: [{ title: "Welcome • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Welcome • VibeLink", "Set up your VibeLink account.", "/onboarding"),
   component: Onboarding,
 });
 

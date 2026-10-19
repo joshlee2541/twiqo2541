@@ -60,20 +60,14 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
-      { title: "VibeLink — Share your vibe" },
-      { name: "description", content: "VibeLink is a place to share photos, follow friends, and discover creators." },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#000000" },
-      { property: "og:title", content: "VibeLink — Share your vibe" },
-      { property: "og:description", content: "VibeLink is a place to share photos, follow friends, and discover creators." },
       { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "VibeLink — Share your vibe" },
-      { name: "twitter:description", content: "VibeLink is a place to share photos, follow friends, and discover creators." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/59990bdc-188c-4215-a276-dd6c4c5b215a" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/59990bdc-188c-4215-a276-dd6c4c5b215a" },
+      { property: "og:site_name", content: "VibeLink" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },

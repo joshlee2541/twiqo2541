@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -8,7 +9,8 @@ import { UserAvatar } from "@/components/Avatar";
 import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_authenticated/explore")({
-  head: () => ({ meta: [{ title: "Explore • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: () => pageSEO("Explore • VibeLink", "Discover people and posts on VibeLink.", "/explore"),
   component: Explore,
 });
 

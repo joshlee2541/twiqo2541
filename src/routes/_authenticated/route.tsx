@@ -6,6 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
+  staticData: { sitemap: "exclude-subtree" },
+  head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow, noarchive" }] }),
   component: AuthGate,
 });
 

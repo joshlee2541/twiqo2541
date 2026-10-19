@@ -1,3 +1,4 @@
+import { pageSEO } from "@/lib/seo";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
@@ -13,7 +14,8 @@ const searchSchema = z.object({ mode: z.enum(["audio", "video"]).default("audio"
 
 export const Route = createFileRoute("/_authenticated/call/$id")({
   validateSearch: searchSchema,
-  head: () => ({ meta: [{ title: "Call • VibeLink" }] }),
+  staticData: { sitemap: false },
+  head: ({ params }) => pageSEO("Call • VibeLink", "Manage your VibeLink audio or video call.", `/call/${encodeURIComponent(params.id)}`),
   component: CallScreen,
 });
 

@@ -26,7 +26,7 @@ export default defineConfig({
         devOptions: { enabled: false },
         workbox: {
           globPatterns: ["**/*.{js,css,woff,woff2}"],
-          // SSR app: no precached HTML shell, navigations go through runtime caching.
+          // SSR app: never persist navigation HTML, including private/auth pages.
           navigateFallback: undefined,
           importScripts: ["/push-sw.js"],
           cleanupOutdatedCaches: true,
@@ -35,20 +35,15 @@ export default defineConfig({
           navigationPreload: true,
           runtimeCaching: [
             {
-              // HTML navigations — always try the network first.
+              // Navigation HTML may become personalized; never cache it.
               urlPattern: ({ request, url }: { request: Request; url: URL }) =>
                 request.mode === "navigate" && !url.pathname.startsWith("/~oauth"),
-              handler: "NetworkFirst",
-              options: {
-                cacheName: "vibelink-pages",
-                networkTimeoutSeconds: 5,
-                expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 },
-              },
+              handler: "NetworkOnly",
             },
             {
               // Same-origin hashed build assets only.
               urlPattern: ({ url, sameOrigin }: { url: URL; sameOrigin: boolean }) =>
-                sameOrigin && /\.(?:js|css|woff2?|png|svg|ico)$/.test(url.pathname),
+                sameOrigin && url.pathname.startsWith("/assets/") && /\.(?:js|css|woff2?|png|svg|ico)$/.test(url.pathname),
               handler: "CacheFirst",
               options: {
                 cacheName: "vibelink-assets",

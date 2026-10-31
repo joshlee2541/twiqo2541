@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import logoAsset from "@/assets/vibelink-logo.png.asset.json";
 
 export function SplashScreen() {
   const [show, setShow] = useState(false);
@@ -18,8 +17,16 @@ export function SplashScreen() {
   return (
     <div className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-between py-16 animate-in fade-in">
       <div className="flex-1" />
-      <div className="flex flex-col items-center">
-        <img src={logoAsset.url} alt="VibeLink" className="w-56 max-w-[70vw] object-contain" />
+      <div className="flex flex-col items-center gap-5">
+        <img
+          src="/icons/icon-512.png"
+          alt="VibeLink"
+          width={96}
+          height={96}
+          loading="eager"
+          className="h-24 w-24 rounded-[24%] shadow-xl shadow-primary/20"
+        />
+        <h1 className="vibelink-logo text-5xl">VibeLink</h1>
       </div>
       <div className="text-xs text-muted-foreground">
         from <span className="font-semibold text-foreground">Lee Tech</span>

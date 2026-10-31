@@ -7,7 +7,7 @@ interface Props {
   className?: string;
 }
 
-// Instagram-style blue verified checkmark
+// VibeLink verified checkmark (brand violet)
 export function VerifiedBadge({ verified, verifiedUntil, size = 14, className }: Props) {
   if (!verified) return null;
   if (verifiedUntil && new Date(verifiedUntil).getTime() < Date.now()) return null;

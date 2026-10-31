@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Camera, Check, ChevronRight, Sparkles, Users, Bell, MessageCircle, Compass, Film } from "lucide-react";
-import logoAsset from "@/assets/vibelink-logo.png.asset.json";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
   staticData: { sitemap: false },
@@ -88,7 +87,7 @@ function Onboarding() {
   const steps = [
     // 0 — Welcome
     <div key="welcome" className="flex flex-col items-center text-center px-6 py-12 gap-4">
-      <img src={logoAsset.url} alt="VibeLink" className="h-24 w-24 rounded-3xl shadow-lg" />
+      <img src="/icons/icon-512.png" alt="VibeLink" width={96} height={96} loading="lazy" className="h-24 w-24 rounded-[24%] shadow-lg shadow-primary/20" />
       <h1 className="vibelink-logo text-4xl mt-2">VibeLink</h1>
       <p className="text-muted-foreground">Connect, share & discover your vibe.</p>
       <Button className="w-full max-w-xs h-11 mt-6 rounded-full" onClick={() => setStep(1)}>Get started</Button>

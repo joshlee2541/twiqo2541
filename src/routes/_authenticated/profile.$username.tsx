@@ -16,7 +16,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile/$username")({
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Profile • VibeLink", "View a VibeLink profile after signing in.", `/profile/${encodeURIComponent(params.username)}`),
+  head: ({ params }) => pageSEO("Profile • Twiqo", "View a Twiqo profile after signing in.", `/profile/${encodeURIComponent(params.username)}`),
   component: Profile,
 });
 
@@ -185,7 +185,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function ProfileMenu({ onSignOut }: { onSignOut: () => void }) {
   const items: { section: string; label: string; group: string }[] = [
-    { group: "How you use VibeLink", section: "account-center", label: "Account Center" },
+    { group: "How you use Twiqo", section: "account-center", label: "Account Center" },
     { group: "Who can see your content", section: "privacy", label: "Account privacy" },
     { group: "Who can see your content", section: "close-friends", label: "Close friends" },
     { group: "Who can see your content", section: "blocked", label: "Blocked" },

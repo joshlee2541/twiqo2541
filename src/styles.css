@@ -29,54 +29,57 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-like: var(--like);
+  --color-verified: var(--verified);
   --font-display: "Outfit", sans-serif;
 }
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.985 0.003 285);
-  --foreground: oklch(0.2 0.02 285);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.17 0.012 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 285);
+  --card-foreground: oklch(0.17 0.012 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 285);
-  --primary: oklch(0.56 0.22 285);              /* VibeLink violet */
+  --popover-foreground: oklch(0.17 0.012 260);
+  --primary: oklch(0.66 0.15 240);              /* Twiqo blue */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.955 0.012 285);
-  --secondary-foreground: oklch(0.25 0.02 285);
-  --muted: oklch(0.965 0.008 285);
-  --muted-foreground: oklch(0.52 0.02 285);
-  --accent: oklch(0.94 0.035 205);              /* soft cyan tint */
-  --accent-foreground: oklch(0.25 0.04 240);
+  --secondary: oklch(0.955 0.005 260);
+  --secondary-foreground: oklch(0.25 0.012 260);
+  --muted: oklch(0.965 0.005 260);
+  --muted-foreground: oklch(0.50 0.015 260);
+  --accent: oklch(0.93 0.03 240);               /* soft blue tint */
+  --accent-foreground: oklch(0.25 0.05 240);
   --destructive: oklch(0.62 0.22 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.91 0.01 285);
-  --input: oklch(0.91 0.01 285);
-  --ring: oklch(0.56 0.22 285);
-  --like: oklch(0.64 0.25 350);                 /* magenta heart */
+  --border: oklch(0.925 0.005 260);
+  --input: oklch(0.925 0.005 260);
+  --ring: oklch(0.66 0.15 240);
+  --like: oklch(0.66 0.23 350);                 /* hot-pink heart */
+  --verified: oklch(0.72 0.15 160);             /* Fiverr-style green */
 }
 
 .dark {
-  --background: oklch(0.145 0.02 285);
-  --foreground: oklch(0.97 0.005 285);
-  --card: oklch(0.18 0.02 285);
-  --card-foreground: oklch(0.97 0.005 285);
-  --popover: oklch(0.19 0.02 285);
-  --popover-foreground: oklch(0.97 0.005 285);
-  --primary: oklch(0.68 0.18 285);
+  --background: oklch(0.235 0.02 250);          /* dim blue-black */
+  --foreground: oklch(0.97 0.005 250);
+  --card: oklch(0.27 0.02 250);
+  --card-foreground: oklch(0.97 0.005 250);
+  --popover: oklch(0.28 0.02 250);
+  --popover-foreground: oklch(0.97 0.005 250);
+  --primary: oklch(0.70 0.14 240);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.23 0.02 285);
-  --secondary-foreground: oklch(0.97 0.005 285);
-  --muted: oklch(0.23 0.02 285);
-  --muted-foreground: oklch(0.65 0.02 285);
-  --accent: oklch(0.26 0.05 230);
-  --accent-foreground: oklch(0.93 0.05 200);
+  --secondary: oklch(0.32 0.02 250);
+  --secondary-foreground: oklch(0.97 0.005 250);
+  --muted: oklch(0.32 0.02 250);
+  --muted-foreground: oklch(0.68 0.015 250);
+  --accent: oklch(0.34 0.04 240);
+  --accent-foreground: oklch(0.93 0.04 240);
   --destructive: oklch(0.66 0.21 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.27 0.02 285);
-  --input: oklch(0.27 0.02 285);
-  --ring: oklch(0.68 0.18 285);
-  --like: oklch(0.72 0.23 350);
+  --border: oklch(0.40 0.02 250);
+  --input: oklch(0.40 0.02 250);
+  --ring: oklch(0.70 0.14 240);
+  --like: oklch(0.72 0.21 350);
+  --verified: oklch(0.75 0.14 160);
 }
 
 @layer base {
@@ -93,20 +96,17 @@
   }
 }
 
-/* VibeLink wordmark — bold geometric type with brand gradient */
-.vibelink-logo {
+/* Twiqo wordmark — bold solid brand blue */
+.twiqo-logo {
   font-family: "Outfit", sans-serif;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.03em;
-  background-image: linear-gradient(95deg, #8b5cf6 10%, #06b6d4 90%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-primary);
 }
 
-/* Story ring gradient — VibeLink violet→cyan */
+/* Story ring gradient — Twiqo blue */
 .story-ring {
-  background: conic-gradient(from 200deg, #8b5cf6, #06b6d4, #8b5cf6);
+  background: conic-gradient(from 200deg, oklch(0.66 0.15 240), oklch(0.82 0.08 235), oklch(0.66 0.15 240));
   padding: 2px;
   border-radius: 9999px;
 }

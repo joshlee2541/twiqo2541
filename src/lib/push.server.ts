@@ -41,7 +41,7 @@ export async function dispatchPendingPushes(actorId: string) {
       const sub: PushSubscription = { endpoint: s.endpoint, expirationTime: null, keys: { p256dh: s.p256dh, auth: s.auth } };
       try {
         const payload = await buildPushPayload(
-          { data: JSON.stringify({ title: "VibeLink", body, url, tag: `${n.type}-${n.id}` }), options: { ttl: 3600, urgency: "normal" } },
+          { data: JSON.stringify({ title: "Twiqo", body, url, tag: `${n.type}-${n.id}` }), options: { ttl: 3600, urgency: "normal" } },
           sub,
           vapid,
         );

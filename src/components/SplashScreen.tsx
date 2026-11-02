@@ -20,13 +20,13 @@ export function SplashScreen() {
       <div className="flex flex-col items-center gap-5">
         <img
           src="/icons/icon-512.png"
-          alt="VibeLink"
+          alt="Twiqo"
           width={96}
           height={96}
           loading="eager"
           className="h-24 w-24 rounded-[24%] shadow-xl shadow-primary/20"
         />
-        <h1 className="vibelink-logo text-5xl">VibeLink</h1>
+        <h1 className="twiqo-logo text-5xl">Twiqo</h1>
       </div>
       <div className="text-xs text-muted-foreground">
         from <span className="font-semibold text-foreground">Lee Tech</span>

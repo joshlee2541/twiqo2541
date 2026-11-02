@@ -82,7 +82,7 @@ export function PostCard({ post }: { post: PostWithMeta }) {
     const url = `${window.location.origin}/post/${post.id}`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: "VibeLink post", url });
+        await navigator.share({ title: "Twiqo post", url });
         await recordShare();
         return;
       } catch { /* cancelled */ }

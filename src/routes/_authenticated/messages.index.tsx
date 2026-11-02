@@ -16,7 +16,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/messages/")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Messages • VibeLink", "Your private VibeLink messages.", "/messages"),
+  head: () => pageSEO("Messages • Twiqo", "Your private Twiqo messages.", "/messages"),
   component: MessagesList,
 });
 

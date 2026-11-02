@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/messages/$id/info")({
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Chat details • VibeLink", "Manage your VibeLink conversation.", `/messages/${encodeURIComponent(params.id)}/info`),
+  head: ({ params }) => pageSEO("Chat details • Twiqo", "Manage your Twiqo conversation.", `/messages/${encodeURIComponent(params.id)}/info`),
   component: GroupInfo,
 });
 

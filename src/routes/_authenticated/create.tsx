@@ -18,7 +18,7 @@ import { timeAgo } from "@/lib/timeAgo";
 
 export const Route = createFileRoute("/_authenticated/create")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Create post • VibeLink", "Share a photo on VibeLink.", "/create"),
+  head: () => pageSEO("Create post • Twiqo", "Share a photo on Twiqo.", "/create"),
   component: CreatePost,
 });
 

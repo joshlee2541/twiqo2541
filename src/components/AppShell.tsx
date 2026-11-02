@@ -49,8 +49,8 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/home" className="vibelink-logo text-2xl text-foreground leading-none">
-            VibeLink
+          <Link to="/home" className="twiqo-logo text-2xl text-foreground leading-none">
+            Twiqo
           </Link>
           <div className="flex items-center gap-1">
             <Link to="/notifications" className="p-2" aria-label="Notifications">
@@ -67,7 +67,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {children}
         <div className="text-center text-[11px] text-muted-foreground py-4 space-y-0.5">
           <div>from <span className="font-semibold text-foreground">Lee Tech</span></div>
-          <div>© {new Date().getFullYear()} VibeLink. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Twiqo. All rights reserved.</div>
         </div>
       </main>
 

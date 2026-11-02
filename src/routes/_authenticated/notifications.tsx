@@ -12,7 +12,7 @@ import { enablePush, disablePush, isPushEnabled, pushSupported } from "@/lib/pus
 
 export const Route = createFileRoute("/_authenticated/notifications")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Activity • VibeLink", "Your VibeLink notifications.", "/notifications"),
+  head: () => pageSEO("Activity • Twiqo", "Your Twiqo notifications.", "/notifications"),
   component: Notifications,
 });
 

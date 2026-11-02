@@ -15,7 +15,7 @@ const searchSchema = z.object({ mode: z.enum(["audio", "video"]).default("audio"
 export const Route = createFileRoute("/_authenticated/call/$id")({
   validateSearch: searchSchema,
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Call • VibeLink", "Manage your VibeLink audio or video call.", `/call/${encodeURIComponent(params.id)}`),
+  head: ({ params }) => pageSEO("Call • Twiqo", "Manage your Twiqo audio or video call.", `/call/${encodeURIComponent(params.id)}`),
   component: CallScreen,
 });
 

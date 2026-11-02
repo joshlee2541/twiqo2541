@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/reels")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Reels • VibeLink", "Watch reels on VibeLink.", "/reels"),
+  head: () => pageSEO("Reels • Twiqo", "Watch reels on Twiqo.", "/reels"),
   component: ReelsFeed,
 });
 

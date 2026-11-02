@@ -11,13 +11,13 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/golive")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Go live • VibeLink", "Start your VibeLink live broadcast.", "/golive"),
+  head: () => pageSEO("Go live • Twiqo", "Start your Twiqo live broadcast.", "/golive"),
   component: GoLive,
 });
 
 const CATEGORIES = ["Chatting", "Music", "Gaming", "Q&A", "Fitness", "Cooking", "Beauty", "Education", "Sports"];
 const AUDIENCES = [
-  { key: "public", label: "Public", icon: Globe, hint: "Anyone on VibeLink" },
+  { key: "public", label: "Public", icon: Globe, hint: "Anyone on Twiqo" },
   { key: "followers", label: "Followers", icon: Users, hint: "Only people who follow you" },
   { key: "close_friends", label: "Close friends", icon: Star, hint: "Your close friends list" },
 ] as const;

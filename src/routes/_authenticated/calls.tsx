@@ -9,7 +9,7 @@ import { timeAgo } from "@/lib/timeAgo";
 
 export const Route = createFileRoute("/_authenticated/calls")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Calls • VibeLink", "Your VibeLink call history.", "/calls"),
+  head: () => pageSEO("Calls • Twiqo", "Your Twiqo call history.", "/calls"),
   component: CallsHistory,
 });
 

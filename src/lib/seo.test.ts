@@ -7,7 +7,7 @@ import type { AnyRoute } from "@tanstack/react-router";
 describe("User-selected SEO boundaries", () => {
   test("canonical URLs use the actual Vercel production address", () => {
     assert.equal(PRODUCTION_ORIGIN, "https://vibelinkke.vercel.app");
-    assert.equal(pageSEO("VibeLink", "Public page", "/auth", true).links[0].href, "https://vibelinkke.vercel.app/auth");
+    assert.equal(pageSEO("Twiqo", "Public page", "/auth", true).links[0].href, "https://vibelinkke.vercel.app/auth");
     assert.ok(sitemapXML(PRODUCTION_ORIGIN, [{ path: "/auth" }]).includes("<loc>https://vibelinkke.vercel.app/auth</loc>"));
   });
   test("private conversations are not indexable", () => {

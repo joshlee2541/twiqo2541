@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/edit-profile")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Edit profile • VibeLink", "Manage your VibeLink profile details.", "/edit-profile"),
+  head: () => pageSEO("Edit profile • Twiqo", "Manage your Twiqo profile details.", "/edit-profile"),
   component: EditProfile,
 });
 

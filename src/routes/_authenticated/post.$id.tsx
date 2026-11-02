@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/post/$id")({
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Post • VibeLink", "View a VibeLink post after signing in.", `/post/${encodeURIComponent(params.id)}`),
+  head: ({ params }) => pageSEO("Post • Twiqo", "View a Twiqo post after signing in.", `/post/${encodeURIComponent(params.id)}`),
   component: PostDetail,
 });
 

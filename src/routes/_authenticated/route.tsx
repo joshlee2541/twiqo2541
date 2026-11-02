@@ -23,7 +23,7 @@ function AuthGate() {
   }, [user?.id]);
 
   if (loading || (user && onboarded === null)) {
-    return <div className="min-h-screen flex items-center justify-center vibelink-logo text-4xl">VibeLink</div>;
+    return <div className="min-h-screen flex items-center justify-center vibelink-logo text-4xl">Twiqo</div>;
   }
   if (!user) return <Navigate to="/auth" />;
   if (onboarded === false && pathname !== "/onboarding") return <Navigate to="/onboarding" />;

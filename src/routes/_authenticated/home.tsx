@@ -11,7 +11,7 @@ import { Camera } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/home")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Home • VibeLink", "Your VibeLink feed of photos and creators.", "/home"),
+  head: () => pageSEO("Home • Twiqo", "Your Twiqo feed of photos and creators.", "/home"),
   component: HomeFeed,
 });
 

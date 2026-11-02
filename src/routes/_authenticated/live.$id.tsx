@@ -17,7 +17,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/live/$id")({
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Live • VibeLink", "Watch a VibeLink live broadcast.", `/live/${encodeURIComponent(params.id)}`),
+  head: ({ params }) => pageSEO("Live • Twiqo", "Watch a Twiqo live broadcast.", `/live/${encodeURIComponent(params.id)}`),
   component: LiveRoom,
 });
 

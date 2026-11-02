@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/close-friends")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Close friends • VibeLink", "Manage your VibeLink close friends.", "/close-friends"),
+  head: () => pageSEO("Close friends • Twiqo", "Manage your Twiqo close friends.", "/close-friends"),
   component: CloseFriends,
 });
 

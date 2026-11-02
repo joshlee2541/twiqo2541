@@ -16,7 +16,7 @@ import { timeAgo } from "@/lib/timeAgo";
 
 export const Route = createFileRoute("/_authenticated/messages/$id")({
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Chat • VibeLink", "Your private VibeLink conversation.", `/messages/${encodeURIComponent(params.id)}`),
+  head: ({ params }) => pageSEO("Chat • Twiqo", "Your private Twiqo conversation.", `/messages/${encodeURIComponent(params.id)}`),
   component: Chat,
 });
 

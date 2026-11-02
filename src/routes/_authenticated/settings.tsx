@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Settings • VibeLink", "Manage your VibeLink settings.", "/settings"),
+  head: () => pageSEO("Settings • Twiqo", "Manage your Twiqo settings.", "/settings"),
   component: SettingsHub,
 });
 
@@ -20,7 +20,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
     { section: "archive", label: "Archive" },
     { section: "activity", label: "Your activity" },
   ]},
-  { title: "How you use VibeLink", items: [
+  { title: "How you use Twiqo", items: [
     { section: "notifications", label: "Notifications" },
     { section: "time-management", label: "Time management" },
   ]},

@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
   staticData: { sitemap: true },
-  head: () => pageSEO("Log in or sign up — VibeLink", "Join VibeLink to share photos and reels, follow friends, and discover creators.", "/auth", true),
+  head: () => pageSEO("Log in or sign up — Twiqo", "Join Twiqo to share photos and reels, follow friends, and discover creators.", "/auth", true),
   component: AuthPage,
 });
 
@@ -44,14 +44,14 @@ function AuthPage() {
   const { user, loading } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [method, setMethod] = useState<"email" | "phone">("email");
-  if (loading) return <div role="status" className="min-h-screen flex items-center justify-center vibelink-logo text-4xl">VibeLink</div>;
+  if (loading) return <div role="status" className="min-h-screen flex items-center justify-center vibelink-logo text-4xl">Twiqo</div>;
   if (user) return <Navigate to="/home" />;
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-10">
       <div className="w-full max-w-sm">
         <div className="bg-card border border-border rounded-lg px-8 py-10 flex flex-col items-center">
-          <h1 className="vibelink-logo text-4xl mb-6">VibeLink</h1>
+          <h1 className="vibelink-logo text-4xl mb-6">Twiqo</h1>
 
           <div className="w-full grid grid-cols-2 gap-1 p-1 mb-4 rounded-lg bg-muted">
             {(["email", "phone"] as const).map((m) => (
@@ -130,7 +130,7 @@ function PhoneAuthForm({ mode, onDone }: { mode: "login" | "signup"; onDone: () 
 
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw new Error(error.message);
-      toast.success(mode === "signup" ? "Welcome to VibeLink!" : "Logged in");
+      toast.success(mode === "signup" ? "Welcome to Twiqo!" : "Logged in");
       onDone();
       navigate({ to: "/home" });
     } catch (err) {
@@ -310,7 +310,7 @@ function SignupForm({ onDone }: { onDone: () => void }) {
       </div>
       <label className="flex items-start gap-2 text-xs text-muted-foreground py-2">
         <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5" />
-        <span>I agree to VibeLink's Terms, Privacy Policy, and Cookies Policy.</span>
+        <span>I agree to Twiqo's Terms, Privacy Policy, and Cookies Policy.</span>
       </label>
       <Button type="submit" disabled={busy} className="w-full h-10 rounded-lg font-semibold">
         {busy ? "Creating..." : "Sign up"}

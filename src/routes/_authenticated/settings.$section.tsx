@@ -12,7 +12,7 @@ import { setPresenceSharing } from "@/lib/presence";
 
 export const Route = createFileRoute("/_authenticated/settings/$section")({
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Account settings • VibeLink", "Manage your VibeLink account preferences.", `/settings/${encodeURIComponent(params.section)}`),
+  head: ({ params }) => pageSEO("Account settings • Twiqo", "Manage your Twiqo account preferences.", `/settings/${encodeURIComponent(params.section)}`),
   component: SectionPage,
 });
 
@@ -286,7 +286,7 @@ function SectionBody({ section }: { section: string }) {
         <>
           <Row label="Two-factor authentication" hint="Require a security code at login." right={<Switch />} />
           <Row label="Login activity" right={<span className="text-xs text-muted-foreground">View</span>} />
-          <Row label="Emails from VibeLink" right={<span className="text-xs text-muted-foreground">View</span>} />
+          <Row label="Emails from Twiqo" right={<span className="text-xs text-muted-foreground">View</span>} />
           <div className="px-4 mt-4">
             <Link to="/reset-password"><Button variant="secondary" className="w-full">Change password</Button></Link>
           </div>
@@ -336,7 +336,7 @@ function AppearanceSection() {
         </button>
       ))}
       <p className="px-4 pt-3 text-xs text-muted-foreground">
-        VibeLink's accent color stays the same in every theme.
+        Twiqo's accent color stays the same in every theme.
       </p>
     </div>
   );

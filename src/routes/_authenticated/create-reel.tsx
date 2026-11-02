@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/create-reel")({
   staticData: { sitemap: false },
-  head: () => pageSEO("New reel • VibeLink", "Create a reel on VibeLink.", "/create-reel"),
+  head: () => pageSEO("New reel • Twiqo", "Create a reel on Twiqo.", "/create-reel"),
   component: CreateReel,
 });
 

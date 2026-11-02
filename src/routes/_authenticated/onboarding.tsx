@@ -14,7 +14,7 @@ import { Camera, Check, ChevronRight, Sparkles, Users, Bell, MessageCircle, Comp
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Welcome • VibeLink", "Set up your VibeLink account.", "/onboarding"),
+  head: () => pageSEO("Welcome • Twiqo", "Set up your Twiqo account.", "/onboarding"),
   component: Onboarding,
 });
 
@@ -80,15 +80,15 @@ function Onboarding() {
     if (website.trim()) updates.website = website.trim();
     const { error } = await supabase.from("profiles").update(updates).eq("id", user.id);
     if (error) { toast.error(error.message); return; }
-    toast.success("Welcome to VibeLink!");
+    toast.success("Welcome to Twiqo!");
     navigate({ to: "/home" });
   };
 
   const steps = [
     // 0 — Welcome
     <div key="welcome" className="flex flex-col items-center text-center px-6 py-12 gap-4">
-      <img src="/icons/icon-512.png" alt="VibeLink" width={96} height={96} loading="lazy" className="h-24 w-24 rounded-[24%] shadow-lg shadow-primary/20" />
-      <h1 className="vibelink-logo text-4xl mt-2">VibeLink</h1>
+      <img src="/icons/icon-512.png" alt="Twiqo" width={96} height={96} loading="lazy" className="h-24 w-24 rounded-[24%] shadow-lg shadow-primary/20" />
+      <h1 className="vibelink-logo text-4xl mt-2">Twiqo</h1>
       <p className="text-muted-foreground">Connect, share & discover your vibe.</p>
       <Button className="w-full max-w-xs h-11 mt-6 rounded-full" onClick={() => setStep(1)}>Get started</Button>
     </div>,
@@ -149,7 +149,7 @@ function Onboarding() {
             <UserAvatar path={u.avatar_url} username={u.username} size={48} />
             <div className="flex-1 min-w-0">
               <div className="font-semibold truncate">{u.username}</div>
-              <div className="text-xs text-muted-foreground truncate">{u.full_name ?? "On VibeLink"}</div>
+              <div className="text-xs text-muted-foreground truncate">{u.full_name ?? "On Twiqo"}</div>
             </div>
             <Button size="sm" variant={u.followed ? "secondary" : "default"} className="rounded-full h-8" onClick={() => toggleFollow(u.id, !!u.followed)}>
               {u.followed ? "Following" : "Follow"}
@@ -173,7 +173,7 @@ function Onboarding() {
         <TutorialRow icon={<Users className="h-5 w-5" />} title="Build community" body="Follow creators & join group chats" />
         <TutorialRow icon={<Bell className="h-5 w-5" />} title="Stay in the loop" body="Get notified about likes, comments & follows" />
       </div>
-      <Button className="w-full h-11 mt-8 rounded-full" onClick={finish}>Enter VibeLink</Button>
+      <Button className="w-full h-11 mt-8 rounded-full" onClick={finish}>Enter Twiqo</Button>
     </div>,
   ];
 

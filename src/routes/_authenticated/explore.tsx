@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_authenticated/explore")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Explore • VibeLink", "Discover people and posts on VibeLink.", "/explore"),
+  head: () => pageSEO("Explore • Twiqo", "Discover people and posts on Twiqo.", "/explore"),
   component: Explore,
 });
 

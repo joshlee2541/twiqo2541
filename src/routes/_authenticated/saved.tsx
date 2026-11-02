@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/saved")({
   staticData: { sitemap: false },
-  head: () => pageSEO("Saved • VibeLink", "Your saved VibeLink posts.", "/saved"),
+  head: () => pageSEO("Saved • Twiqo", "Your saved Twiqo posts.", "/saved"),
   component: Saved,
 });
 

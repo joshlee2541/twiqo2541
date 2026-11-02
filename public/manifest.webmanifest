@@ -1,7 +1,7 @@
 {
-  "name": "VibeLink",
-  "short_name": "VibeLink",
-  "description": "VibeLink is a place to share photos, follow friends, and discover creators.",
+  "name": "Twiqo",
+  "short_name": "Twiqo",
+  "description": "Twiqo is a place to share photos, follow friends, and discover creators.",
   "id": "/",
   "start_url": "/",
   "scope": "/",

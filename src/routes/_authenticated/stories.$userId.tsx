@@ -9,7 +9,7 @@ import { X } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/stories/$userId")({
   staticData: { sitemap: false },
-  head: ({ params }) => pageSEO("Story • VibeLink", "View VibeLink stories after signing in.", `/stories/${encodeURIComponent(params.userId)}`),
+  head: ({ params }) => pageSEO("Story • Twiqo", "View Twiqo stories after signing in.", `/stories/${encodeURIComponent(params.userId)}`),
   component: StoryViewer,
 });
 

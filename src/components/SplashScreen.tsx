@@ -26,7 +26,7 @@ export function SplashScreen() {
           loading="eager"
           className="h-24 w-24 rounded-[24%] shadow-xl shadow-primary/20"
         />
-        <h1 className="vibelink-logo text-5xl">Twiqo</h1>
+        <h1 className="twiqo-logo text-5xl">Twiqo</h1>
       </div>
       <div className="text-xs text-muted-foreground">
         from <span className="font-semibold text-foreground">Lee Tech</span>

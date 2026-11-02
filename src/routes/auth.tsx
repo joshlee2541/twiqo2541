@@ -44,14 +44,14 @@ function AuthPage() {
   const { user, loading } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [method, setMethod] = useState<"email" | "phone">("email");
-  if (loading) return <div role="status" className="min-h-screen flex items-center justify-center vibelink-logo text-4xl">Twiqo</div>;
+  if (loading) return <div role="status" className="min-h-screen flex items-center justify-center twiqo-logo text-4xl">Twiqo</div>;
   if (user) return <Navigate to="/home" />;
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-10">
       <div className="w-full max-w-sm">
         <div className="bg-card border border-border rounded-lg px-8 py-10 flex flex-col items-center">
-          <h1 className="vibelink-logo text-4xl mb-6">Twiqo</h1>
+          <h1 className="twiqo-logo text-4xl mb-6">Twiqo</h1>
 
           <div className="w-full grid grid-cols-2 gap-1 p-1 mb-4 rounded-lg bg-muted">
             {(["email", "phone"] as const).map((m) => (

@@ -49,7 +49,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/home" className="vibelink-logo text-2xl text-foreground leading-none">
+          <Link to="/home" className="twiqo-logo text-2xl text-foreground leading-none">
             Twiqo
           </Link>
           <div className="flex items-center gap-1">

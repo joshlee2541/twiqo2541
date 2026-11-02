@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
 function Landing() {
   const { user, loading } = useAuth();
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center vibelink-logo text-5xl">Twiqo</div>;
+    return <div className="min-h-screen flex items-center justify-center twiqo-logo text-5xl">Twiqo</div>;
   }
   return <Navigate to={user ? "/home" : "/auth"} />;
 }

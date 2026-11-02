@@ -88,7 +88,7 @@ function Onboarding() {
     // 0 — Welcome
     <div key="welcome" className="flex flex-col items-center text-center px-6 py-12 gap-4">
       <img src="/icons/icon-512.png" alt="Twiqo" width={96} height={96} loading="lazy" className="h-24 w-24 rounded-[24%] shadow-lg shadow-primary/20" />
-      <h1 className="vibelink-logo text-4xl mt-2">Twiqo</h1>
+      <h1 className="twiqo-logo text-4xl mt-2">Twiqo</h1>
       <p className="text-muted-foreground">Connect, share & discover your vibe.</p>
       <Button className="w-full max-w-xs h-11 mt-6 rounded-full" onClick={() => setStep(1)}>Get started</Button>
     </div>,

@@ -66,7 +66,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "google-site-verification", content: "MJeOOmIQkjqYZPr_KnhEFRFdMKiHLQA128McT7ahQiY" },
-      { name: "theme-color", content: "#0e0f16" },
+      { name: "theme-color", content: "#15202b" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Twiqo" },
       { name: "twitter:card", content: "summary_large_image" },

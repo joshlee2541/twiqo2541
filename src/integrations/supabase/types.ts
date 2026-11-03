@@ -631,13 +631,20 @@ export type Database = {
           bio: string | null
           close_friends_ids: string[]
           created_at: string
+          date_of_birth: string | null
           full_name: string | null
+          gender: string | null
           id: string
           interests: string[]
           is_private: boolean
           last_seen_at: string | null
+          location: string | null
+          mention_permission: string
+          message_permission: string
           onboarded: boolean
           phone: string | null
+          pronouns: string | null
+          reply_visibility: string
           show_activity_status: boolean
           updated_at: string
           username: string
@@ -650,13 +657,20 @@ export type Database = {
           bio?: string | null
           close_friends_ids?: string[]
           created_at?: string
+          date_of_birth?: string | null
           full_name?: string | null
+          gender?: string | null
           id: string
           interests?: string[]
           is_private?: boolean
           last_seen_at?: string | null
+          location?: string | null
+          mention_permission?: string
+          message_permission?: string
           onboarded?: boolean
           phone?: string | null
+          pronouns?: string | null
+          reply_visibility?: string
           show_activity_status?: boolean
           updated_at?: string
           username: string
@@ -669,13 +683,20 @@ export type Database = {
           bio?: string | null
           close_friends_ids?: string[]
           created_at?: string
+          date_of_birth?: string | null
           full_name?: string | null
+          gender?: string | null
           id?: string
           interests?: string[]
           is_private?: boolean
           last_seen_at?: string | null
+          location?: string | null
+          mention_permission?: string
+          message_permission?: string
           onboarded?: boolean
           phone?: string | null
+          pronouns?: string | null
+          reply_visibility?: string
           show_activity_status?: boolean
           updated_at?: string
           username?: string

@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, Navigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { AppShell } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,15 +14,19 @@ export const Route = createFileRoute("/_authenticated")({
 function AuthGate() {
   const { user, loading } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [onboarded, setOnboarded] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    if (!user) { setOnboarded(null); return; }
-    supabase.from("profiles").select("onboarded").eq("id", user.id).maybeSingle()
-      .then(({ data }) => setOnboarded(data?.onboarded ?? false));
-  }, [user?.id]);
+  // Query-based so the onboarding flow can invalidate it on completion.
+  const { data: onboarded, isPending } = useQuery({
+    queryKey: ["onboarded", user?.id ?? null],
+    enabled: !!user,
+    staleTime: Infinity,
+    queryFn: async () => {
+      const { data } = await supabase.from("profiles").select("onboarded").eq("id", user!.id).maybeSingle();
+      return data?.onboarded ?? false;
+    },
+  });
 
-  if (loading || (user && onboarded === null)) {
+  if (loading || (user && (isPending || onboarded === undefined))) {
     return <div className="min-h-screen flex items-center justify-center twiqo-logo text-4xl">Twiqo</div>;
   }
   if (!user) return <Navigate to="/auth" />;

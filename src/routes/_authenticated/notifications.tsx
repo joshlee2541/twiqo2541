@@ -94,7 +94,8 @@ function Notifications() {
         <ul className="mt-2">
           {data.map((n) => {
             const name = n.actor?.username ?? "someone";
-            const text = n.type === "like" ? "liked your post." : n.type === "comment" ? "commented on your post." : "started following you.";
+            const welcome = n.type === "welcome";
+            const text = n.type === "like" ? "liked your post." : n.type === "comment" ? "commented on your post." : welcome ? "Welcome to Twiqo! Your account is ready." : "started following you.";
             return (
               <li key={n.id}>
                 <Link
@@ -104,7 +105,13 @@ function Notifications() {
                 >
                   <UserAvatar path={n.actor?.avatar_url} username={name} size={44} />
                   <p className="flex-1 text-sm">
-                    <span className="font-semibold">{name}</span> {text}{" "}
+                    {welcome ? (
+                      <span className="font-semibold">{text}</span>
+                    ) : (
+                      <>
+                        <span className="font-semibold">{name}</span> {text}{" "}
+                      </>
+                    )}
                     <span className="text-muted-foreground">{timeAgo(n.created_at, { short: true })}</span>
                   </p>
                 </Link>

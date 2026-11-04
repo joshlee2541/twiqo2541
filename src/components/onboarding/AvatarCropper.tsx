@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Cropper as CropperIcon, X } from "lucide-react";
+import { ZoomIn as ZoomIcon, X } from "lucide-react";
 
 const VIEW = 256; // circular viewport size in CSS px
 const OUT = 512; // exported square size in px
@@ -137,7 +137,7 @@ export function AvatarCropper({ file, onCancel, onCropped }: Props) {
       </div>
 
       <div className="flex items-center gap-3 w-full max-w-xs px-2">
-        <CropperIcon className="h-4 w-4 text-muted-foreground shrink-0" />
+        <ZoomIcon className="h-4 w-4 text-muted-foreground shrink-0" />
         <input
           type="range"
           min={1}

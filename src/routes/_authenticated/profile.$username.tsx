@@ -120,6 +120,13 @@ function Profile() {
           </div>
           {!isMe && <ActiveLabel userId={profile.id} className="block mt-0.5" />}
           {profile.bio && <p className="text-sm whitespace-pre-wrap">{profile.bio}</p>}
+          {(profile.location || profile.pronouns) && (
+            <p className="text-sm text-muted-foreground">
+              {profile.location}
+              {profile.location && profile.pronouns ? " · " : ""}
+              {profile.pronouns}
+            </p>
+          )}
           {profile.website && (
             <a href={profile.website} target="_blank" rel="noreferrer" className="text-sm text-primary block">{profile.website}</a>
           )}

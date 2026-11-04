@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/notifications")({
 });
 
 type Row = {
-  id: string; type: "like" | "comment" | "follow"; post_id: string | null; created_at: string; read: boolean;
+  id: string; type: "like" | "comment" | "follow" | "welcome"; post_id: string | null; created_at: string; read: boolean;
   actor_id: string; actor?: { username: string; avatar_url: string | null } | null;
 };
 

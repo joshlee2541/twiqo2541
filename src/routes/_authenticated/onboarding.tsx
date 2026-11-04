@@ -232,7 +232,7 @@ function Onboarding() {
       </div>
       <Button className="w-full h-11 mt-6 rounded-full" disabled={busy || !!pendingFile} onClick={() => go(2)}>Next</Button>
       <button onClick={() => go(2)} disabled={busy} className="w-full text-center text-sm text-muted-foreground py-3">
-        {draft.avatarPath ? "Next" : "Skip for now — use a default avatar"}
+        Skip ahead{draft.avatarPath ? "" : " — use a default avatar"}
       </button>
     </div>,
 

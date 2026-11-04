@@ -25,5 +25,5 @@ test("draft round-trips through storage and survives corrupt data", () => {
   assert.equal(back.is_private, true);
 
   assert.equal(parseDraft("not json"), null);
-  assert.equal(parseDraft("{}"), null); // parsed but no draft markers? step/others default
+  assert.deepEqual(parseDraft("{}"), emptyDraft()); // valid JSON with no fields → clean defaults
 });

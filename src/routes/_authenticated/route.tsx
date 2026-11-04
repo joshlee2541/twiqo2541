@@ -30,7 +30,7 @@ function AuthGate() {
     return <div className="min-h-screen flex items-center justify-center twiqo-logo text-4xl">Twiqo</div>;
   }
   if (!user) return <Navigate to="/auth" />;
-  if (onboarded === false && pathname !== "/onboarding") return <Navigate to="/onboarding" />;
+  if (onboarded === false && pathname !== "/onboarding") return <Navigate to="/onboarding" search={{ step: 0 }} />;
   return (
     <AppShell>
       <Outlet />

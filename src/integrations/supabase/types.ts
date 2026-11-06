@@ -630,6 +630,7 @@ export type Database = {
           avatar_url: string | null
           bio: string | null
           close_friends_ids: string[]
+          country: string | null
           created_at: string
           date_of_birth: string | null
           full_name: string | null
@@ -656,6 +657,7 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           close_friends_ids?: string[]
+          country?: string | null
           created_at?: string
           date_of_birth?: string | null
           full_name?: string | null
@@ -682,6 +684,7 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           close_friends_ids?: string[]
+          country?: string | null
           created_at?: string
           date_of_birth?: string | null
           full_name?: string | null
@@ -896,6 +899,27 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_settings: {
         Row: {
           allow_message_requests: boolean
@@ -932,6 +956,172 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_applications: {
+        Row: {
+          admin_note: string | null
+          category: string
+          country: string
+          created_at: string
+          full_legal_name: string
+          id: string
+          reason: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          social_links: string[] | null
+          status: string
+          updated_at: string
+          user_id: string
+          username: string
+          website_url: string | null
+        }
+        Insert: {
+          admin_note?: string | null
+          category: string
+          country: string
+          created_at?: string
+          full_legal_name: string
+          id?: string
+          reason: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          social_links?: string[] | null
+          status?: string
+          updated_at?: string
+          user_id: string
+          username: string
+          website_url?: string | null
+        }
+        Update: {
+          admin_note?: string | null
+          category?: string
+          country?: string
+          created_at?: string
+          full_legal_name?: string
+          id?: string
+          reason?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          social_links?: string[] | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+          username?: string
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_applications_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_applications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      verification_audit_logs: {
+        Row: {
+          action: string
+          actor_id: string
+          application_id: string | null
+          created_at: string
+          id: string
+          note: string | null
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          application_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          application_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          target_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_audit_logs_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_audit_logs_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "verification_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_audit_logs_target_user_id_fkey"
+            columns: ["target_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      verification_documents: {
+        Row: {
+          application_id: string
+          created_at: string
+          file_name: string
+          id: string
+          mime_type: string
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          file_name: string
+          id?: string
+          mime_type: string
+          storage_path: string
+          user_id: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          file_name?: string
+          id?: string
+          mime_type?: string
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_documents_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "verification_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_documents_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -957,6 +1147,13 @@ export type Database = {
           user_id: string
         }[]
       }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       is_conv_admin: {
         Args: { _conv: string; _user: string }
         Returns: boolean
@@ -965,6 +1162,7 @@ export type Database = {
         Args: { _conv: string; _user: string }
         Returns: boolean
       }
+      is_twiqo_admin: { Args: never; Returns: boolean }
       leave_group: { Args: { _conv: string }; Returns: undefined }
       remove_group_member: {
         Args: { _conv: string; _user: string }
@@ -981,7 +1179,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "founder" | "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1108,6 +1306,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["founder", "admin", "user"],
+    },
   },
 } as const
